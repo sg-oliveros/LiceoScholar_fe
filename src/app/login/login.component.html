@@ -1,18 +1,27 @@
-<section>
-    <h1>Login</h1>
-</section>
 
-<app-login-form
-  [email]="email()"
-  [password]="password()"
-  (onsubmit)="handleSubmitClicked()"
-/>
-
-<section class="posts">
-    <article class="post">
-    @for (post of posts(); track post.id) {
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.body }}</p>
-    }
-    </article>
-</section>
+<div class="login-container">
+  <section>
+    
+    <img src="assets/images/LDCULogo.png" alt="Liceo Logo" class="logo">
+    <h1>LICEO SCHOLAR</h1>
+  </section>
+ <div class="forms">
+   
+   <div class="app-login-form">
+      <app-switch-form (modeChange)="onModeChange($event)"></app-switch-form>
+      
+      <app-login-form
+         *ngIf="mode() === 'login'"
+         [email]="email()"
+         [password]="password()"
+         (onsubmit)="handleSubmitClicked()">
+      </app-login-form>
+      <app-signup-form
+         *ngIf="mode() === 'signup'"
+         (onsubmit)="handleSubmitClicked()">
+      </app-signup-form>
+    </div>
+ </div>
+ 
+  
+</div>

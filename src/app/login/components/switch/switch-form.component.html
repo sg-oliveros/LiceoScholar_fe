@@ -1,0 +1,16 @@
+<div class="toggle-container">
+  <button
+    class="toggle-btn"
+    [class.active]="currentMode() === 'login'"
+    (click)="select('login')"
+  >
+    LOG IN
+  </button>
+  <button
+    class="toggle-btn"
+    [class.active]="currentMode() === 'signup'"
+    (click)="select('signup')"
+  >
+    SIGN UP
+  </button>
+</div>

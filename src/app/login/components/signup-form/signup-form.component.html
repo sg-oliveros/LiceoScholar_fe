@@ -1,0 +1,53 @@
+<form class="signup-form">
+  <input
+    type="text"
+    id="firstName"
+    name="firstName"
+    [(ngModel)]="firstName"
+    placeholder="First Name"
+  />
+
+  <input
+    type="text"
+    id="lastName"
+    name="lastName"
+    [(ngModel)]="lastName"
+    placeholder="Last Name"
+  />
+
+  <input
+    type="text"
+    id="schoolId"
+    name="schoolId"
+    [(ngModel)]="schoolId"
+    placeholder="School ID"
+  />
+
+  <input
+    type="email"
+    id="schoolEmail"
+    name="schoolEmail"
+    [(ngModel)]="schoolEmail"
+    placeholder="School Email"
+  />
+
+  <input
+    type="password"
+    id="password"
+    name="password"
+    [(ngModel)]="password"
+    placeholder="Password"
+  />
+
+  <input
+    type="password"
+    id="confirmPassword"
+    name="confirmPassword"
+    [(ngModel)]="confirmPassword"
+    placeholder="Confirm Password"
+  />
+
+  <button type="submit" [disabled]="disabled()" (click)="onsubmitClicked()">
+    Sign Up
+  </button>
+</form>

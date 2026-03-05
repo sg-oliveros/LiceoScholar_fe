@@ -1,18 +1,17 @@
+/* reuse login-form styles */
 form {
   display: flex;
   flex-direction: column;
   gap: 15px;
   width: 350px;
-  margin: -2.5rem auto 0;
-  padding: 2rem;
+  margin: 0 auto;
+  
   background-color: transparent;
   border-radius: 0.5rem;
- 
 }
 
-
-
 input {
+  
   padding: 1rem;
   border-radius: 0.5rem;
   border: none;
@@ -20,8 +19,8 @@ input {
   font-size: 1rem;
 }
 
-
 button {
+  
   margin-top: 20px;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -31,20 +30,4 @@ button {
   font-size: 1rem;
   font-weight: 200;
   cursor: pointer;
-}
-
-.forgotpassword {
-  display: block;        
-  background: transparent;
-  font-size: 12px;      
-  color: #ffffff;
-  text-decoration: none;
-  padding: 0;            
-  margin-top: -10px;             
-  text-align: left;      
-  width: fit-content;    
-}
-.forgotpassword:hover {
-  text-decoration: underline;  
-  opacity: 0.8;
 }

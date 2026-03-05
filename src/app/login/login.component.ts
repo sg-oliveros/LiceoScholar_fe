@@ -1,29 +1,28 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, OnInit, signal } from "@angular/core";
-import { PostsService } from "../../services/posts/posts.service";
+import { Component, signal } from "@angular/core";
 import { LoginFormComponent } from "./components/login-form/login-form.component";
+import { SignupFormComponent } from "./components/signup-form/signup-form.component";
+import { SwitchFormComponent } from "./components/switch/switch-form.component";
+
 
 @Component({
     selector: 'app-login',
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    imports: [LoginFormComponent, CommonModule]
+    imports: [LoginFormComponent, SignupFormComponent, CommonModule, SwitchFormComponent]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
     public email = signal<string>('example@email.com');
     public password = signal<string>('password123');
 
-    private postsService = inject(PostsService);
+    public mode = signal<'login' | 'signup'>('login');
 
-    public posts = signal<any[]>([]);
-
-    async ngOnInit(): Promise<void> {
-    const results = await this.postsService.getPosts();
-    this.posts.set(results as any);
-}
+    public onModeChange(mode: 'login' | 'signup') {
+      this.mode.set(mode);
+    }
 
     public handleSubmitClicked() {
-    alert("The button is clicked")
+        alert(`submit clicked in ${this.mode()}`);
     }
 }

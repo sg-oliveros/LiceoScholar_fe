@@ -1,26 +1,57 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  overflow: hidden;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: horizontal;        
+  align-items: center;           
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #860B11;
+  box-sizing: border-box;
+}
+.logo{
+  width: 400px;
+  height: auto;
+  margin-bottom: 20px;
+}
 section {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+h1 {
+  margin: 0;
+  font-size: 3em;
+  color: white;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* duplicate section rule already defined above */
+
+
+.app-login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+
+.forms {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
   width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-  min-height: 12rem;
-  background-color: #43eb34;
 }
 
-.posts {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 2rem;
-  background-color: #ffffff;
-}
-
-.post {
-  padding: 1rem;
-  background-color: #fbb0ff;
-  border-radius: 0.5rem;
-  max-width: 80%;
-  margin: 0 auto;
-}
