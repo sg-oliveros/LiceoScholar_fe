@@ -3,6 +3,7 @@ import { Component, signal } from "@angular/core";
 import { LoginFormComponent } from "./components/login-form/login-form.component";
 import { SignupFormComponent } from "./components/signup-form/signup-form.component";
 import { SwitchFormComponent } from "./components/switch/switch-form.component";
+import { ForgetPassComponent } from "./components/forget-pass/forget-pass.component";
 
 
 @Component({
@@ -10,13 +11,13 @@ import { SwitchFormComponent } from "./components/switch/switch-form.component";
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    imports: [LoginFormComponent, SignupFormComponent, CommonModule, SwitchFormComponent]
+    imports: [LoginFormComponent, SignupFormComponent, CommonModule, SwitchFormComponent, ForgetPassComponent]
 })
 export class LoginComponent {
     public email = signal<string>('example@email.com');
     public password = signal<string>('password123');
 
-    public mode = signal<'login' | 'signup'>('login');
+    public mode = signal<'login' | 'signup' | 'forget'>('login');
 
     public onModeChange(mode: 'login' | 'signup') {
       this.mode.set(mode);
