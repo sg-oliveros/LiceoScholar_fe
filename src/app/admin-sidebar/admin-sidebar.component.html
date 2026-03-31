@@ -1,0 +1,24 @@
+<div class="sidebar">
+    <div class="logo">
+    <img src="assets/images/LDCULogo.png" alt="Logo">
+    <h2>LICEO SCHOLAR</h2>
+    </div>
+
+<ul>
+    <li
+    [class.active]="activeItem() === 'students'"
+    (click)="setActive('students')">
+    Student List
+    </li>
+
+    <li
+    [class.active]="activeItem() === 'profile'"
+    (click)="setActive('profile')">
+    Profile
+    </li>
+</ul>
+
+    <div class="logout">
+    Logout
+</div>
+</div>

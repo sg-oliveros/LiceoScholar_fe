@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, signal } from "@angular/core";
+import { Router } from "@angular/router";
 import { LoginFormComponent } from "./components/login-form/login-form.component";
 import { SignupFormComponent } from "./components/signup-form/signup-form.component";
 import { SwitchFormComponent } from "./components/switch/switch-form.component";
@@ -18,11 +19,15 @@ export class LoginComponent {
 
     public mode = signal<'login' | 'signup'>('login');
 
+    constructor(private router: Router) {}
+
     public onModeChange(mode: 'login' | 'signup') {
-      this.mode.set(mode);
+        this.mode.set(mode);
     }
 
     public handleSubmitClicked() {
         alert(`submit clicked in ${this.mode()}`);
+
+        this.router.navigate(['/admin-profile']);//to go to admin for testing preview
     }
 }
