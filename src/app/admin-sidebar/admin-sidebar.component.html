@@ -5,15 +5,11 @@
     </div>
 
 <ul>
-    <li
-    [class.active]="activeItem() === 'students'"
-    (click)="setActive('students')">
+    <li routerLink="/admin-students-list" routerLinkActive="active">
     Student List
     </li>
 
-    <li
-    [class.active]="activeItem() === 'profile'"
-    (click)="setActive('profile')">
+    <li routerLink="/admin-profile" routerLinkActive="active">
     Profile
     </li>
 </ul>

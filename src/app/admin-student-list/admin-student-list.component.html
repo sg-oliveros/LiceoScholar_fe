@@ -1,0 +1,47 @@
+<div class="admin-container">
+<app-admin-sidebar></app-admin-sidebar>
+
+<div class="main-content">
+
+    <div class="toolbar">
+    <div class="search-wrapper">
+        <input type="text" placeholder="Search" [(ngModel)]="searchTerm"> <!--improve needed for ui-->
+        <button class="filter-btn" (click)="toggleFilter()">
+        <span class="material-icons">filter</span> <!--change into an actual icon-->
+        </button>
+    </div>
+    </div>
+
+    <div class="student-table">
+    <div class="thead">
+        <span>Last Name, First Name, MI.</span>
+        <span>Course & Yr Level</span>
+        <span>Scholarship Type</span>
+        <span>Requirements</span>
+    </div>
+
+    <div class="tbody-container">
+        <div class="trow" *ngFor="let student of filteredStudents(); let i = index">
+        <span class="name-cell">
+            <span class="indicator" [ngClass]="student.status.toLowerCase()"></span>
+            {{ student.name }}
+        </span>
+
+        <span>{{ student.course }}</span>
+        <span>{{ student.scholarshipType }}</span>
+        <span class="status-selector">
+            <button (click)="toggleDropdown(i)" [ngClass]="student.status.toLowerCase()">
+            {{ student.status }} ▾
+            </button>
+            
+            <div class="dropdown-menu" *ngIf="openDropdownIndex === i">
+            <div (click)="updateStatus(student, 'Complete')" class="text-complete">Complete</div>
+            <div (click)="updateStatus(student, 'Missing')" class="text-missing">Missing</div>
+            <div (click)="updateStatus(student, '---')">---</div>
+            </div>
+            </span>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>

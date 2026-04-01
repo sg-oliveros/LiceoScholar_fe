@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component';
 
 @Component({
     selector: 'app-admin-profile',
     standalone: true,
-    imports: [CommonModule, AdminSidebarComponent, FormsModule],
+    imports: [CommonModule, AdminSidebarComponent, FormsModule, RouterLink, RouterLinkActive],
     templateUrl: './admin-profile.component.html',
     styleUrls: ['./admin-profile.component.scss']
 })
