@@ -28,6 +28,6 @@ export class LoginComponent {
     public handleSubmitClicked() {
         alert(`submit clicked in ${this.mode()}`);
 
-        this.router.navigate(['/admin-profile']);//to go to admin for testing preview
+        this.router.navigate(['/admin-profile']);//to go to admin profile
     }
 }
