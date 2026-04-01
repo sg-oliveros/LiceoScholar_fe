@@ -1,0 +1,64 @@
+<div class="admin-container">
+<app-admin-sidebar></app-admin-sidebar>
+
+<div class="main-content">
+    <header>Admin Student Profile</header>
+
+    <div class="toolbar">
+    <div class="search-wrapper">
+        <input type="text" placeholder="Search" [(ngModel)]="searchTerm">
+        <button class="filter-btn" (click)="toggleFilter()">
+        <span class="material-icons">tune</span>
+        </button>
+    </div>
+    </div>
+
+    <div class="student-table">
+    <div class="thead">
+        <span>Last Name, First Name, MI.</span>
+        <span>Course & Yr Level</span>
+        <span>Scholarship Type</span>
+        <span>Requirements</span>
+    </div>
+
+      <div class="tbody" *ngFor="let student of filteredStudents(); let i = index">
+        <div class="trow">
+        <span class="name-cell">
+            <span class="indicator" [ngClass]="student.status.toLowerCase()"></span>
+            {{ student.name }}
+        </span>
+        <span>{{ student.course }}</span>
+        <span>{{ student.scholarshipType }}</span>
+        <span class="status-selector">
+            <button (click)="toggleDropdown(i)" [ngClass]="student.status.toLowerCase()">
+            {{ student.status }} ▾
+            </button>
+            
+            <div class="dropdown-menu" *ngIf="openDropdownIndex === i">
+            <div (click)="updateStatus(student, 'Complete')" class="text-complete">Complete</div>
+            <div (click)="updateStatus(student, 'Missing')" class="text-missing">Missing</div>
+            <div (click)="updateStatus(student, '---')">---</div>
+            </div>
+        </span>
+        </div>
+    </div>
+    </div>
+</div>
+
+  <div class="modal-overlay" *ngIf="isFilterOpen">
+    <div class="filter-card">
+    <div class="filter-field">
+        <label>Course</label>
+        <select [(ngModel)]="filters.course"><option>CISCO BSIT 2-1</option></select>
+    </div>
+    <div class="filter-field">
+        <label>Year Level</label>
+        <select [(ngModel)]="filters.yearLevel"><option>Second Year</option></select>
+    </div>
+    <div class="actions">
+        <button class="cancel" (click)="toggleFilter()">Cancel</button>
+        <button class="save" (click)="toggleFilter()">Save</button>
+    </div>
+    </div>
+</div>
+</div>
