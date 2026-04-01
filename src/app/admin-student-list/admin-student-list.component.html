@@ -2,13 +2,12 @@
 <app-admin-sidebar></app-admin-sidebar>
 
 <div class="main-content">
-    <header>Admin Student Profile</header>
 
     <div class="toolbar">
     <div class="search-wrapper">
-        <input type="text" placeholder="Search" [(ngModel)]="searchTerm">
+        <input type="text" placeholder="Search" [(ngModel)]="searchTerm"> <!--improve needed for ui-->
         <button class="filter-btn" (click)="toggleFilter()">
-        <span class="material-icons">tune</span>
+        <span class="material-icons">filter</span> <!--change into an actual icon-->
         </button>
     </div>
     </div>
@@ -21,12 +20,13 @@
         <span>Requirements</span>
     </div>
 
-      <div class="tbody" *ngFor="let student of filteredStudents(); let i = index">
-        <div class="trow">
+    <div class="tbody-container">
+        <div class="trow" *ngFor="let student of filteredStudents(); let i = index">
         <span class="name-cell">
             <span class="indicator" [ngClass]="student.status.toLowerCase()"></span>
             {{ student.name }}
         </span>
+
         <span>{{ student.course }}</span>
         <span>{{ student.scholarshipType }}</span>
         <span class="status-selector">
@@ -39,26 +39,9 @@
             <div (click)="updateStatus(student, 'Missing')" class="text-missing">Missing</div>
             <div (click)="updateStatus(student, '---')">---</div>
             </div>
-        </span>
+            </span>
+        </div>
         </div>
     </div>
     </div>
-</div>
-
-  <div class="modal-overlay" *ngIf="isFilterOpen">
-    <div class="filter-card">
-    <div class="filter-field">
-        <label>Course</label>
-        <select [(ngModel)]="filters.course"><option>CISCO BSIT 2-1</option></select>
-    </div>
-    <div class="filter-field">
-        <label>Year Level</label>
-        <select [(ngModel)]="filters.yearLevel"><option>Second Year</option></select>
-    </div>
-    <div class="actions">
-        <button class="cancel" (click)="toggleFilter()">Cancel</button>
-        <button class="save" (click)="toggleFilter()">Save</button>
-    </div>
-    </div>
-</div>
 </div>
