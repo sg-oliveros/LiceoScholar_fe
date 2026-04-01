@@ -1,0 +1,88 @@
+<div class="admin-container">
+<app-admin-sidebar></app-admin-sidebar>
+
+<div class="main-content">
+
+    <div class="toolbar">
+    <div class="search-wrapper">
+        <input type="text" placeholder="Search" [(ngModel)]="searchTerm"> <!--improve needed for ui-->
+        <button class="filter-btn" (click)="toggleFilter()">
+        <span class="material-icons">filter</span> <!--change into an actual icon-->
+        </button>
+    </div>
+    </div>
+
+    <div class="student-table">
+    <div class="thead">
+        <span>Last Name, First Name, MI.</span>
+        <span>Course & Yr Level</span>
+        <span>Scholarship Type</span>
+        <span>Requirements</span>
+    </div>
+
+    <div class="tbody-container">
+        <div class="trow" *ngFor="let student of filteredStudents(); let i = index">
+        <span class="name-cell">
+            <span class="indicator" [ngClass]="student.status.toLowerCase()"></span>
+            {{ student.name }}
+        </span>
+
+        <span>{{ student.course }}</span>
+        <span>{{ student.scholarshipType }}</span>
+        <span class="status-selector">
+            <button (click)="toggleDropdown(i)" [ngClass]="student.status.toLowerCase()">
+            {{ student.status }} ▾
+            </button>
+            
+            <div class="dropdown-menu" *ngIf="openDropdownIndex === i">
+            <div (click)="updateStatus(student, 'Complete')" class="text-complete">Complete</div>
+            <div (click)="updateStatus(student, 'Missing')" class="text-missing">Missing</div>
+            <div (click)="updateStatus(student, '---')">---</div>
+            </div>
+            </span>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="filter-overlay" *ngIf="isFilterOpen">
+        <div class="filter-row">
+            <label>Course</label>
+            <select [(ngModel)]="filters.course">
+                <option value="">---</option>
+                <option value="CISCO BSIT 2-1">CISCO BSIT 2-1</option>
+            </select>
+        </div>
+
+        <div class="filter-row">
+            <label>Year Level</label>
+            <select [(ngModel)]="filters.yearLevel">
+                <option value="">---</option>
+                <option value="Second Year">Second Year</option>
+            </select>
+        </div>
+
+        <div class="filter-row">
+            <label>Type of Scholarship</label>
+            <select [(ngModel)]="filters.scholarship">
+                <option value="">---</option>
+                <option value="Academic Scholarship">Academic Scholarship</option>
+                <option value="Non-Academic Scholar..">Non-Academic Scholar..</option>
+            </select>
+        </div>
+
+        <div class="filter-row">
+            <label>Status</label>
+            <select [(ngModel)]="filters.status">
+                <option value="">---</option>
+                <option value="Complete">Complete</option>
+                <option value="Missing">Missing</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button class="btn-cancel" (click)="toggleFilter()">Cancel</button>
+            <button class="btn-save" (click)="toggleFilter()">Save</button>
+        </div>
+    </div>
+</div>
