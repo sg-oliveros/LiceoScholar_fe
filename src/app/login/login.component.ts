@@ -15,7 +15,6 @@ import { SwitchFormComponent } from "./components/switch/switch-form.component";
 })
 export class LoginComponent {
     private router = inject(Router);
-
     public email = signal<string>('example@email.com');
     public password = signal<string>('password123');
 
