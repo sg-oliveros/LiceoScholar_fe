@@ -7,7 +7,7 @@ export interface Student {
     name: string;
     course: string;
     scholarshipType: string;
-    status: 'Complete' | 'Missing' | '---';
+    status: 'Pending' | 'Approved' | 'Rejected' | 'Finished';
 }
 
 @Component({
@@ -26,9 +26,9 @@ export class StudentListComponent {
     filters = { course: '', yearLevel: '', scholarship: '', status: '' };
 
     students: Student[] = [
-    { name: 'Oliveros, Samantha Gayle R.', course: 'CISCO BSIT 2-1', scholarshipType: 'Academic Scholarship', status: 'Complete' },
-    { name: 'Paradillo, Raque Alexy', course: 'CISCO BSIT 2-1', scholarshipType: 'Non-Academic Scholar..', status: 'Missing' },
-    { name: 'Reyes, Christy Ann E. Reyes', course: 'CISCO BSIT 2-1', scholarshipType: 'Non-Academic Scholar..', status: '---' }
+    { name: 'Oliveros, Samantha Gayle R.', course: 'CISCO BSIT 2-1', scholarshipType: 'Academic Scholarship', status: 'Approved' },
+    { name: 'Paradillo, Raque Alexy', course: 'CISCO BSIT 2-1', scholarshipType: 'Non-Academic Scholar..', status: 'Rejected' },
+    { name: 'Reyes, Christy Ann E. Reyes', course: 'CISCO BSIT 2-1', scholarshipType: 'Non-Academic Scholar..', status: 'Pending' }
     ];
 
     filteredStudents() {

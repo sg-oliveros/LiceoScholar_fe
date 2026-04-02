@@ -17,7 +17,7 @@
         <span>Last Name, First Name, MI.</span>
         <span>Course & Yr Level</span>
         <span>Scholarship Type</span>
-        <span>Requirements</span>
+        <span>Status</span>
     </div>
 
     <div class="tbody-container">
@@ -34,10 +34,11 @@
             {{ student.status }} ▾
             </button>
             
-            <div class="dropdown-menu" *ngIf="openDropdownIndex === i">
-            <div (click)="updateStatus(student, 'Complete')" class="text-complete">Complete</div>
-            <div (click)="updateStatus(student, 'Missing')" class="text-missing">Missing</div>
-            <div (click)="updateStatus(student, '---')">---</div>
+            <div class="dropdown-menu" *ngIf="openDropdownIndex === i"> <!--changed to match new status choices-->
+            <div (click)="updateStatus(student, 'Pending')" class="text-pending">Pending</div>
+            <div (click)="updateStatus(student, 'Approved')" class="text-approved">Approved</div>
+            <div (click)="updateStatus(student, 'Rejected')" class="text-rejected">Rejected</div>
+            <div (click)="updateStatus(student, 'Finished')" class="text-finished">Finished</div>
             </div>
             </span>
         </div>
