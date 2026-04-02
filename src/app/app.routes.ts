@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
-import { StudentListComponent } from './admin-student-list-filter/admin-student-filter.component';  
+import { StudentListComponent } from './admin-student-list/admin-student-list.component';  
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
 
 
