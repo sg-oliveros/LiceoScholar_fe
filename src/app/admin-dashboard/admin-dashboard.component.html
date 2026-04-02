@@ -4,9 +4,9 @@
   <main class="main-content">
     <div class="top-row">
       <section class="card activity-chart">
-        <h3>User's Activity</h3>
+        <h3>User's Activity (Distribution)</h3>
         <div class="chart-wrapper">
-          <canvas #activityChart></canvas>
+          <canvas #polarChart></canvas>
         </div>
       </section>
 
@@ -17,11 +17,24 @@
           <p class="name">Alvarez, James Jason, R. PHD.</p>
         </div>
         <div class="status-cards">
-          <div class="status-box"><span>Active</span><h2>6</h2></div>
-          <div class="status-box"><span>Not Active</span><h2>7</h2></div>
+          <div class="status-box">
+            <span>Active</span>
+            <h2>6</h2>
+          </div>
+          <div class="status-box">
+            <span>Not Active</span>
+            <h2>7</h2>
+          </div>
         </div>
       </aside>
     </div>
+
+    <section class="card activity-chart">
+        <h3>User's Activity (Trends)</h3>
+        <div class="chart-wrapper">
+          <canvas #activityChart></canvas>
+        </div>
+      </section>
 
     <section class="card table-card">
       <div class="table-header">
@@ -33,17 +46,20 @@
             <th>Last Name, First Name, MI.</th>
             <th>Course & Yr Level</th>
             <th>Scholarship Type</th>
-            <th></th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="status-dot online"></span> Oliveros, Samantha Gayle R.</td>
+            <td>
+              <span class="status-dot online"></span> 
+              Oliveros, Samantha Gayle R.
+            </td>
             <td>CISCO BSIT 2-1</td>
             <td>Academic Scholarship</td>
             <td class="status-text">Complete</td>
           </tr>
-        </tbody>
+          </tbody>
       </table>
       <div class="see-more">See More</div>
     </section>
