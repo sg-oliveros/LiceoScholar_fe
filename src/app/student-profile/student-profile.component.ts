@@ -19,6 +19,7 @@ export class StudentProfileComponent implements OnInit {
         sex: 'FEMALE',
         scholarshipType: 'ACADEMIC SCHOLARSHIP (FULL SCHOLAR)',
         profileImage: 'assets/profile.jpg',  // put your image here
+        
     };
 
     constructor() { }
