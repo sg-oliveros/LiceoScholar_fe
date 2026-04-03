@@ -11,7 +11,7 @@ $gray-bg: #f5f5f5;
 .content {
   flex: 1;
   padding: 30px 40px;
-  background: $gray-bg;
+  background: white;
   overflow-y: auto;
 }
 
@@ -19,12 +19,14 @@ $gray-bg: #f5f5f5;
 .profile-section {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 40px;
 }
 
 .info {
   flex: 1;
+  max-width: 400px;
+  margin-right: 440px;
 
   label {
     display: block;
@@ -37,11 +39,11 @@ $gray-bg: #f5f5f5;
   input {
     width: 100%;
     padding: 8px 12px;
-    background: #ddd;
+    background: #e8e8e8;
     border: none;
     border-radius: 5px;
     font-size: 13px;
-    color: #333;
+    color: #555;
     outline: none;
   }
 }
@@ -49,25 +51,29 @@ $gray-bg: #f5f5f5;
 // PROFILE IMAGE
 .profile-img-wrapper {
   position: relative;
-  width: 160px;
-  height: 160px;
+  width: 300px;
+  height: 300px;
   flex-shrink: 0;
-  margin-top: 20px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
 
   .profile-img {
-    width: 160px;
-    height: 160px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #d97706;
+    border: 5px solid #d97706;
   }
 
   .edit-btn {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
+    bottom: 10px;
+    right: calc(50% - 150px);
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     background: white;
     border: 0.5px solid #ccc;
@@ -76,6 +82,7 @@ $gray-bg: #f5f5f5;
     align-items: center;
     justify-content: center;
     color: #555;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 
     &:hover {
       background: #f0f0f0;
@@ -87,15 +94,15 @@ $gray-bg: #f5f5f5;
 .apply-row {
   display: flex;
   justify-content: flex-end;
-  margin-top: 24px;
-  margin-bottom: 16px;
+  margin-top: 30px;
+  margin-bottom: 20px;
 
   .apply-btn {
     background: $liceo-red;
     color: white;
     border: none;
     border-radius: 6px;
-    padding: 10px 28px;
+    padding: 10px 32px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -111,26 +118,31 @@ $gray-bg: #f5f5f5;
   background: white;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  border: 0.5px solid #ddd;
 }
 
 .table-head {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr 1.2fr;
   background: $liceo-red;
 
   span {
-    padding: 14px 20px;
-    font-size: 13px;
+    padding: 14px 16px;
+    font-size: 12px;
     font-weight: 600;
     color: white;
     text-align: center;
+    border-right: 0.5px solid rgba(255,255,255,0.2);
+
+    &:last-child {
+      border-right: none;
+    }
   }
 }
 
 .table-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr 1.2fr;
   border-top: 0.5px solid #eee;
 
   &:hover {
@@ -138,10 +150,15 @@ $gray-bg: #f5f5f5;
   }
 
   span {
-    padding: 12px 20px;
+    padding: 12px 16px;
     font-size: 13px;
     color: #333;
     text-align: center;
+    border-right: 0.5px solid #eee;
+
+    &:last-child {
+      border-right: none;
+    }
   }
 
   .pending  { color: #d97706; font-weight: 600; }
@@ -156,11 +173,10 @@ $gray-bg: #f5f5f5;
     align-items: center;
   }
 
-  .info {
-    width: 100%;
-  }
+  .info { width: 100%; max-width: 100%; }
 
   .profile-img-wrapper {
+    flex: unset;
     margin-top: 10px;
   }
 }

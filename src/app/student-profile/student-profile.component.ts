@@ -20,11 +20,11 @@ export class StudentProfileComponent implements OnInit {
     scholarshipType: 'ACADEMIC SCHOLARSHIP (FULL SCHOLAR)',
     profileImage: 'assets/images/profile.jpg',
     history: [
-      { term: '3RD YR (1ST SEMESTER)', status: 'PENDING' },
-      { term: '2ND YR (2ND SEMESTER)', status: 'FINISHED' },
-      { term: '2ND YR (1ST SEMESTER)', status: 'FINISHED' },
-      { term: '1ST YR (2ND SEMESTER)', status: 'FINISHED' },
-      { term: '1ST YR (1ST SEMESTER)', status: 'FINISHED' },
+      { applicationId: 2135, scholarshipName: 'ACADEMIC SCHOLARSHIP (FULL)', status: 'PENDING',  dateSubmitted: '03-04-2026' },
+      { applicationId: 2341, scholarshipName: 'ACADEMIC SCHOLARSHIP (FULL)', status: 'FINISHED', dateSubmitted: '12-02-2025' },
+      { applicationId: 6585, scholarshipName: 'ACADEMIC SCHOLARSHIP (FULL)', status: 'FINISHED', dateSubmitted: '10-10-2025' },
+      { applicationId: 4563, scholarshipName: 'ACADEMIC SCHOLARSHIP (HALF)', status: 'FINISHED', dateSubmitted: '07-03-2025' },
+      { applicationId: 8654, scholarshipName: 'ACADEMIC SCHOLARSHIP (HALF)', status: 'FINISHED', dateSubmitted: '11-06-2024' },
     ]
   };
 
