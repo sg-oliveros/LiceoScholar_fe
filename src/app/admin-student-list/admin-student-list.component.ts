@@ -1,14 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+<<<<<<< HEAD
 import { Router } from '@angular/router';
+=======
+>>>>>>> Feature-Admin-StudentList
 import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component';
 
 export interface Student {
     name: string;
     course: string;
     scholarshipType: string;
+<<<<<<< HEAD
     status: 'Pending' | 'Approved' | 'Rejected' | 'Finished';
+=======
+    status: 'Pending' | 'Approved' | 'Rejected' | 'Finished'; //changed as per request
+>>>>>>> Feature-Admin-StudentList
 }
 
 @Component({
@@ -19,8 +26,11 @@ export interface Student {
     styleUrl: './admin-student-list.component.scss'
 })
 export class StudentListComponent {
+<<<<<<< HEAD
     constructor(private router: Router) {}
 
+=======
+>>>>>>> Feature-Admin-StudentList
     searchTerm: string = '';
     isFilterOpen: boolean = false;
     openDropdownIndex: number | null = null;
@@ -35,6 +45,7 @@ export class StudentListComponent {
     ];
 
     filteredStudents() {
+<<<<<<< HEAD
     return this.students.filter(s => {
             const matchesSearch = s.name.toLowerCase().includes(this.searchTerm.toLowerCase());
             const matchesCourse = !this.filters.course || s.course === this.filters.course;
@@ -47,6 +58,9 @@ export class StudentListComponent {
 
     onSelectStudent(student: Student) {
         this.router.navigate(['/admin/student-profile', student.name]);
+=======
+    return this.students.filter(s => s.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+>>>>>>> Feature-Admin-StudentList
     }
 
     toggleFilter() { this.isFilterOpen = !this.isFilterOpen; }
