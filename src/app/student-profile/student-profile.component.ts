@@ -1,15 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { UserSidebarComponent } from '../user-sidebar/user-sidebar.component';
 
 @Component({
   selector: 'app-student-profile',
   standalone: true,
-  imports: [CommonModule, UserSidebarComponent],
+  imports: [CommonModule, FormsModule, UserSidebarComponent],
   templateUrl: './student-profile.component.html',
   styleUrls: ['./student-profile.component.scss']
 })
 export class StudentProfileComponent implements OnInit {
+
+  showModal = false;
+  selectedScholarship = '';
 
   student = {
     fullName: 'OLIVEROS, SAMANTHA GAYLE R.',
@@ -30,4 +34,20 @@ export class StudentProfileComponent implements OnInit {
 
   constructor() { }
   ngOnInit(): void { }
+
+  openModal(): void {
+    this.selectedScholarship = '';
+    this.showModal = true;
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+    this.selectedScholarship = '';
+  }
+
+  submitApplication(): void {
+    if (!this.selectedScholarship) return;
+    console.log('Applying for:', this.selectedScholarship);
+    this.closeModal();
+  }
 }

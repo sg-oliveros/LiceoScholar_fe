@@ -36,7 +36,7 @@
     </div>
 
     <div class="apply-row">
-      <button class="apply-btn">Apply</button>
+      <button class="apply-btn" (click)="openModal()">Apply</button>
     </div>
 
     <div class="history-table">
@@ -54,5 +54,35 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- APPLY MODAL -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeModal()">&#x2715;</button>
+
+    <div class="modal-body">
+      <label class="modal-label">
+        Scholarship Type <span class="required">*</span>
+      </label>
+      <div class="select-wrapper">
+        <select [(ngModel)]="selectedScholarship">
+          <option value="" disabled selected></option>
+          <option value="Academic Scholarship (FULL)">Academic Scholarship (FULL)</option>
+          <option value="Academic Scholarship (Half)">Academic Scholarship (Half)</option>
+          <option value="Non-Academic Scholarship">Non-Academic Scholarship</option>
+          <option value="Special Scholarship">Special Scholarship</option>
+        </select>
+        <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+      <button class="btn-apply" (click)="submitApplication()" [disabled]="!selectedScholarship">APPLY</button>
+    </div>
   </div>
 </div>
