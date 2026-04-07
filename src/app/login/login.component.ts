@@ -14,6 +14,7 @@ import { SwitchFormComponent } from "./components/switch/switch-form.component";
 })
 export class LoginComponent {
     private router = inject(Router);
+
     public email = signal<string>('example@email.com');
     public password = signal<string>('password123');
 
@@ -27,6 +28,6 @@ export class LoginComponent {
     public handleSubmitClicked() {
         alert(`submit clicked in ${this.mode()}`);
 
-        this.router.navigate(['/admin-students-list'])
+        this.router.navigate(['/admin-students-list'])//logic for if user or admin during login
     }
 }

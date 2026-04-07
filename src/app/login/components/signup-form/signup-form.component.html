@@ -15,12 +15,20 @@
     placeholder="Last Name"
   />
 
-  <input 
+  <input
+    type="password"
+    id="phoneNumber"
+    name="phoneNumber"
+    [(ngModel)]="phoneNumber"
+    placeholder="Phone Number"
+  />
+
+  <input
     type="text"
-    id="schoolId"
-    name="schoolId"
-    [(ngModel)]="schoolId"
-    placeholder="School ID"
+    id="course"
+    name="course"
+    [(ngModel)]="course"
+    placeholder="Course Name"
   />
 
   <input
@@ -39,13 +47,6 @@
     placeholder="Password"
   />
 
-  <input
-    type="password"
-    id="confirmPassword"
-    name="confirmPassword"
-    [(ngModel)]="confirmPassword"
-    placeholder="Confirm Password"
-  />
 
   <button type="submit" [disabled]="disabled()" (click)="onsubmitClicked()">
     Sign Up

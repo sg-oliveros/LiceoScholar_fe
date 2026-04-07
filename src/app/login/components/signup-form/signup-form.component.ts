@@ -12,10 +12,10 @@ export class SignupFormComponent {
 
   public firstName = model<string>('');
   public lastName = model<string>('');
-  public schoolId = model<string>('');
+  public course = model<string>('');
   public schoolEmail = model<string>('');
   public password = model<string>('');
-  public confirmPassword = model<string>('');
+  public phoneNumber = model<string>('');
 
   public onsubmit = output<void>();
 
