@@ -1,17 +1,28 @@
-
 <form class="forget-form">
-  <input
-    type="email"
-    id="email"
-    name="email"
-    placeholder="Enter your email"
-  />
+  
+  <div *ngIf="step == 1">
+    <h3>RESET PASSWORD</h3>
+    <p>Enter your email to get a code</p>
+    
+    <input type="email" placeholder="Email Address" name="email" required />
+    
+    <button type="button" (click)="nextStep()">
+      Send Code
+    </button>
+  </div>
 
-  <button type="submit">
-    Reset Password
-  </button>
+  <div *ngIf="step == 2">
+    <h3>ENTER DETAILS</h3>
+    <input type="text" class="otp-input" maxlength="6" placeholder="000000" />
+    <input type="password" placeholder="New Password" />
+    <input type="password" placeholder="Confirm Password" />
 
-  <button type="button" (click)="onback.emit()">
+    <button type="button" (click)="finishReset()">
+      Submit
+    </button>
+  </div>
+
+  <button type="button" class="back-link" (click)="onback.emit()">
     Back to Login
   </button>
 </form>

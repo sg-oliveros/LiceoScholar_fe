@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component, signal } from "@angular/core";
+import { ForgetPassComponent } from "./components/forget-pass/forget-pass.component";
 import { LoginFormComponent } from "./components/login-form/login-form.component";
 import { SignupFormComponent } from "./components/signup-form/signup-form.component";
 import { SwitchFormComponent } from "./components/switch/switch-form.component";
-import { ForgetPassComponent } from "./components/forget-pass/forget-pass.component";
 
 
 @Component({
@@ -20,7 +20,7 @@ export class LoginComponent {
     public mode = signal<'login' | 'signup' | 'forget'>('login');
 
     public onModeChange(mode: 'login' | 'signup') {
-      this.mode.set(mode);
+    this.mode.set(mode);
     }
 
     public handleSubmitClicked() {
