@@ -13,7 +13,7 @@
     name="password"
     placeholder="Password"
   />
-  <button class="forgotpassword">Forgot password?</button>
+  <button class="forgotpassword" (click)="onforget.emit()">Forgot password?</button>
   
   <button type="submit" [disabled]="disabled()" (click)="onsubmitClicked()">
     Login

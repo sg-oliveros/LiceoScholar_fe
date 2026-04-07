@@ -14,6 +14,7 @@ export class LoginFormComponent {
   public password = model<string>('');
 
   public onsubmit = output<void>();
+  public onforget = output<void>();
 
   public onsubmitClicked() {
     this.onsubmit.emit();

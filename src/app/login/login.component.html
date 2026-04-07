@@ -14,12 +14,20 @@
          *ngIf="mode() === 'login'"
          [email]="email()"
          [password]="password()"
-         (onsubmit)="handleSubmitClicked()">
+         (onsubmit)="handleSubmitClicked()"
+         (onforget)="mode.set('forget')">
       </app-login-form>
+
+      <app-forget-pass
+         *ngIf="mode() === 'forget'"
+         (onback)="mode.set('login')">
+      </app-forget-pass>
+
       <app-signup-form
          *ngIf="mode() === 'signup'"
          (onsubmit)="handleSubmitClicked()">
       </app-signup-form>
+     
     </div>
  </div>
  
