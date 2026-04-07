@@ -23,13 +23,15 @@
     placeholder="Phone Number"
   />
 
-  <input
-    type="text"
-    id="course"
-    name="course"
-    [(ngModel)]="course"
-    placeholder="Course Name"
-  />
+  <select name="course" [(ngModel)]="course" required>
+    <option value="" disabled selected hidden>Course Name</option>
+    
+    @for (c of courses; track c.id) {
+      <option [value]="c.id">
+        {{ c.name }}
+      </option>
+    }
+  </select>
 
   <input
     type="email"

@@ -1,26 +1,28 @@
-/* reuse login-form styles */
 form {
   display: flex;
   flex-direction: column;
   gap: 15px;
   width: 350px;
   margin: 0 auto;
-  
   background-color: transparent;
   border-radius: 0.5rem;
 }
 
-input {
-  
+input, select {
   padding: 1rem;
   border-radius: 0.5rem;
   border: none;
   background-color: #f0f0f0;
   font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+select:invalid, select option[value=""] {
+  color: #757575;
 }
 
 button {
-  
   margin-top: 20px;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -30,4 +32,9 @@ button {
   font-size: 1rem;
   font-weight: 200;
   cursor: pointer;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 }
