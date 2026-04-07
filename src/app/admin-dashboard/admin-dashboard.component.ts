@@ -30,7 +30,7 @@ export class AdminDashboardComponent implements AfterViewInit {
       labels: ['Red', 'Green', 'Yellow', 'Grey', 'Blue'],
       datasets: [{
         label: 'My First Dataset',
-        data: [11, 16, 7, 3, 14],
+        data: [11, 16, 7, 3, 20],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(75, 192, 192)',
