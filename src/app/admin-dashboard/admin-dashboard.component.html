@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <main class="main-content">
+    <div class="top-row">
+      <section class="card activity-chart">
+        <h3>User's Activity (Distribution)</h3>
+        <div class="chart-wrapper">
+          <canvas #polarChart></canvas>
+        </div>
+      </section>
+
+      <aside class="side-info">
+        <div class="profile-card">
+          <p class="profile-label">PROFILE</p>
+          <div class="avatar"></div>
+          <p class="name">Alvarez, James Jason, R. PHD.</p>
+        </div>
+        <div class="status-cards">
+          <div class="status-box">
+            <span>Active</span>
+            <h2>6</h2>
+          </div>
+          <div class="status-box">
+            <span>Not Active</span>
+            <h2>7</h2>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card activity-chart">
+        <h3>User's Activity (Trends)</h3>
+        <div class="chart-wrapper">
+          <canvas #activityChart></canvas>
+        </div>
+      </section>
+
+    
+  </main>
+</div>

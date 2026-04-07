@@ -42,10 +42,8 @@
     </div>
 
     <div class="tbody-container">
-        
         <div class="trow" *ngFor="let student of filteredStudents(); let i = index">
-        
-        <span class="name-cell clickable" (click)="onSelectStudent(student)">
+        <span class="name-cell">
             <span class="indicator" [ngClass]="student.status.toLowerCase()"></span>
             {{ student.name }}
         </span>
