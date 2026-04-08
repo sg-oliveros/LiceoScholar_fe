@@ -12,6 +12,11 @@
     <button class="filter-btn" (click)="toggleFilter()">
     <span class="material-icons">filter_list</span>
     </button>
+    
+    <button class="finish-term-btn" (click)="showFinishTermDialog()">
+    <span class="material-icons">done_all</span>
+    Finish Term
+    </button>
     </div>
 </div>
 
@@ -68,5 +73,28 @@
     </div>
         </div>
     </div>
+
+    <!-- Finish Term Confirmation Dialog -->
+    <div class="finish-term-overlay" *ngIf="showFinishDialog">
+        <div class="finish-term-dialog">
+            <div class="dialog-header">
+                <h3>Finish Term Confirmation</h3>
+            </div>
+            <div class="dialog-content">
+                <p>Are you sure you want to mark all current students as finished for this term?</p>
+                <p class="warning-text">This action will change the status of all students to "Finished".</p>
+                <div class="timer-container">
+                    <p>You can confirm this action in:</p>
+                    <div class="timer-display">{{ countdownTime }}s</div>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <button class="btn-cancel-dialog" (click)="cancelFinishTerm()">Cancel</button>
+                <button class="btn-finish-term" (click)="finishTerm()" [disabled]="countdownTime > 0">
+                    Confirm Finish Term ({{ countdownTime > 0 ? countdownTime + 's' : 'Ready' }})
+                </button>
+            </div>
+        </div>
     </div>
+</div>
 </div>
