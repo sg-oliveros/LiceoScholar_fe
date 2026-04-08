@@ -12,8 +12,8 @@
       
       <app-login-form
          *ngIf="mode() === 'login'"
-         [email]="email()"
-         [password]="password()"
+         [(email)]="email"
+         [(password)]="password"
          (onsubmit)="handleSubmitClicked()">
       </app-login-form>
       <app-signup-form

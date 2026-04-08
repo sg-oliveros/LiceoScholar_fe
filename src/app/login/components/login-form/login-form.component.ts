@@ -10,8 +10,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 export class LoginFormComponent {
   public disabled = input<boolean>(false);
   
-  public email = model<string>('');
-  public password = model<string>('');
+  public email = model.required<string>();
+  public password = model.required<string>();
 
   public onsubmit = output<void>();
 

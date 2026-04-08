@@ -29,5 +29,6 @@ export class LoginComponent {
         alert(`submit clicked in ${this.mode()}`);
 
         this.router.navigate(['/profile']);
+        sessionStorage.setItem('user', 'true');
     }
 }
