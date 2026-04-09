@@ -21,7 +21,6 @@ export class LoginComponent {
 
     mode = signal<'login' | 'signup' | 'forget'>('login');
 
-
     public onModeChange(mode: 'login' | 'signup') {
     this.mode.set(mode);
     }

@@ -5,6 +5,7 @@ import { AdminSelectStudentComponent } from './admin-select-student/admin-select
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
 import { StudentListComponent } from './admin-student-list/admin-student-list.component';
 import { LoginComponent } from './login/login.component';
+import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 
 
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'admin-profile', component: AdminProfileComponent }, //admin profile
   { path: 'admin', component: AdminSidebarComponent}, // path for the sidebar
   { path: 'admin/student-profile/:id', component: AdminSelectStudentComponent},
-  { path: 'admin-dashboard', component: AdminDashboardComponent }
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
+  { path: 'profile', component: StudentProfileComponent}
 ];

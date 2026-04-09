@@ -1,10 +1,10 @@
-
 <form class="login-form">
   <input
     type="email"
     id="email"
     name="email"
     placeholder="Email"
+    [(ngModel)]="email"
   />
 
   <input
@@ -12,6 +12,7 @@
     id="password"
     name="password"
     placeholder="Password"
+    [(ngModel)]="password"
   />
   <button class="forgotpassword" (click)="onforget.emit()">Forgot password?</button>
   
