@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserSidebarComponent } from '../user-sidebar/user-sidebar.component';
+import { AuthService } from '../services/auth.service';
+import { ApplicationsService } from '../services/applications.service';
 
 @Component({
   selector: 'app-student-profile',
@@ -11,29 +13,67 @@ import { UserSidebarComponent } from '../user-sidebar/user-sidebar.component';
   styleUrls: ['./student-profile.component.scss']
 })
 export class StudentProfileComponent implements OnInit {
+  private authService = inject(AuthService);
+  private applicationsService = inject(ApplicationsService);
 
   showModal = false;
+  private currentUserId: number | null = null;
   selectedScholarship = '';
+  isLoading = true;
 
-  student = {
-    fullName: 'OLIVEROS, SAMANTHA GAYLE R.',
-    course: 'CISCO BSIT',
-    yearLevel: '2ND YEAR',
-    age: '18 YEARS OLD',
-    sex: 'FEMALE',
-    scholarshipType: 'ACADEMIC SCHOLARSHIP (FULL SCHOLAR)',
-    profileImage: 'assets/images/profile.jpg',
-    history: [
-      { applicationId: 2135, scholarshipName: 'ACADEMIC SCHOLARSHIP (FULL)', status: 'PENDING',  dateSubmitted: '03-04-2026' },
-      { applicationId: 2341, scholarshipName: 'ACADEMIC SCHOLARSHIP (FULL)', status: 'FINISHED', dateSubmitted: '12-02-2025' },
-      { applicationId: 6585, scholarshipName: 'ACADEMIC SCHOLARSHIP (FULL)', status: 'FINISHED', dateSubmitted: '10-10-2025' },
-      { applicationId: 4563, scholarshipName: 'ACADEMIC SCHOLARSHIP (HALF)', status: 'FINISHED', dateSubmitted: '07-03-2025' },
-      { applicationId: 8654, scholarshipName: 'ACADEMIC SCHOLARSHIP (HALF)', status: 'FINISHED', dateSubmitted: '11-06-2024' },
-    ]
-  };
+  student = signal({
+    fullName: '',
+    email: '',
+    phone: '',
+    course: '',
+    profileImage: 'assets/images/profile.jpg'
+  });
+
+  applications = signal<any[]>([]);
 
   constructor() { }
-  ngOnInit(): void { }
+
+  ngOnInit(): void {
+    this.loadUserData();
+  }
+
+  loadUserData(): void {
+    this.authService.getMe().subscribe({
+      next: (response) => {
+        
+        const user = response.user;
+        
+        this.currentUserId = user.UserID;
+        this.student.set({
+          ...this.student(),
+          fullName: `${user.LastName}, ${user.FirstName}`,
+          email: user.Email,
+          phone: user.Phone_number || '',
+          course: user.CourseName || user.CourseCode || 'Not assigned'
+        });
+       
+        this.isLoading = false;
+        // Load applications after user data is loaded
+        this.loadApplications();
+      },
+      error: (err) => {
+        console.error('Failed to load user data:', err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  loadApplications(): void {
+    if (!this.currentUserId) return;
+    this.applicationsService.getUserApplications(this.currentUserId).subscribe({
+      next: (apps) => {
+        this.applications.set(apps);
+      },
+      error: (err) => {
+        console.error('Failed to load applications:', err);
+      }
+    });
+  }
 
   openModal(): void {
     this.selectedScholarship = '';
@@ -44,10 +84,36 @@ export class StudentProfileComponent implements OnInit {
     this.showModal = false;
     this.selectedScholarship = '';
   }
-
+  
+  
   submitApplication(): void {
-    if (!this.selectedScholarship) return;
-    console.log('Applying for:', this.selectedScholarship);
-    this.closeModal();
+    if (!this.selectedScholarship || !this.currentUserId) return;
+
+    // Map scholarship name to ID based on your DB
+    const scholarshipMap: { [key: string]: number } = {
+      'Academic Scholarship (FULL)': 1,
+      'Academic Scholarship (Half)': 2,
+      'Non-Academic Scholarship': 3,
+      'Special Scholarship': 4
+    };
+
+    const scholarshipId = scholarshipMap[this.selectedScholarship];
+    if (!scholarshipId) {
+      console.error('Unknown scholarship:', this.selectedScholarship);
+      return;
+    }
+
+    this.applicationsService.createApplication(this.currentUserId, scholarshipId).subscribe({
+      next: (response) => {
+        console.log('Application submitted:', response);
+        alert('Application submitted successfully!');
+        this.closeModal();
+        this.loadApplications(); // Refresh the list
+      },
+      error: (err) => {
+        console.error('Failed to submit application:', err);
+        alert(err.error?.message || 'Failed to submit application');
+      }
+    });
   }
 }

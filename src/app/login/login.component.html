@@ -10,10 +10,13 @@
    <div class="app-login-form">
       <app-switch-form (modeChange)="onModeChange($event)"></app-switch-form>
       
+      <div *ngIf="errorMessage()" class="error-message">{{ errorMessage() }}</div>
+
       <app-login-form
          *ngIf="mode() === 'login'"
-         [email]="email()"
-         [password]="password()"
+         [(email)]="email"
+         [(password)]="password"
+         [disabled]="isLoading()"
          (onsubmit)="handleSubmitClicked()"
          (onforget)="mode.set('forget')">
       </app-login-form>

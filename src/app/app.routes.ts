@@ -16,5 +16,5 @@ export const routes: Routes = [
   { path: 'admin', component: AdminSidebarComponent}, // path for the sidebar
   { path: 'admin/student-profile/:id', component: AdminSelectStudentComponent},
   { path: 'admin-dashboard', component: AdminDashboardComponent },
-  { path: 'profile', component: StudentProfileComponent}
+  { path: 'user-profile', component: StudentProfileComponent}
 ];
