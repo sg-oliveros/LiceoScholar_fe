@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
 interface LoginCredentials {
@@ -74,5 +74,13 @@ export class AuthService {
     return this.http.get<GetMeResponse>(`${this.apiUrl}/me`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
+  }
+
+  getAuthHeaders(): { [header: string]: string } {
+    const token = this.getToken();
+    return {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    };
   }
 }
