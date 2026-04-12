@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-admin-sidebar',
@@ -9,4 +10,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     templateUrl: './admin-sidebar.component.html',
     styleUrls: ['./admin-sidebar.component.scss']
 })
-export class AdminSidebarComponent {}
+export class AdminSidebarComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
+}

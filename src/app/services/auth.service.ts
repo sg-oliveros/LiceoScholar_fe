@@ -45,6 +45,23 @@ export class AuthService {
     );
   }
 
+  forgetPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { Email: email });
+  }
+  resetPassword(otp: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, { OTP_Code: otp, NewPassword: password });
+  }
+  
+  
+  register(credentials: LoginCredentials): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/register`, credentials).pipe(
+      tap(response => {
+        sessionStorage.setItem('authToken', response.token);
+        sessionStorage.setItem('currentUser', JSON.stringify(response.user));
+      })
+    );
+  }
+
   logout(): void {
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('currentUser');

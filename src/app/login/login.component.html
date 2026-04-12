@@ -18,7 +18,7 @@
          [(password)]="password"
          [disabled]="isLoading()"
          (onsubmit)="handleSubmitClicked()"
-         (onforget)="mode.set('forget')">
+         (onforget)="handleForget()">
       </app-login-form>
 
       <app-forget-pass
@@ -28,6 +28,13 @@
 
       <app-signup-form
          *ngIf="mode() === 'signup'"
+         [(firstName)]="firstName"
+         [(lastName)]="lastName"
+         [(course)]="course"
+         [(schoolEmail)]="schoolEmail"
+         [(password)]="signupPassword"
+         [(phoneNumber)]="phoneNumber"
+         [disabled]="isLoading()"
          (onsubmit)="handleSubmitClicked()">
       </app-signup-form>
      
