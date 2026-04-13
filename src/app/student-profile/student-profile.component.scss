@@ -15,10 +15,12 @@ $gray-bg: #f5f5f5;
   overflow-y: auto;
 }
 .edit-info-btn {
+  display: flex;
   margin-top: 20px;
   background: $liceo-red;
   color: white;
   border: none;
+  
   
   border-radius: 6px;
   padding: 10px 32px;
@@ -27,7 +29,7 @@ $gray-bg: #f5f5f5;
   cursor: pointer;
 
   &:hover {
-    background: color.adjust($liceo-red);
+    background: darken($liceo-red, 8%);
   }
 }
 
@@ -125,14 +127,14 @@ $gray-bg: #f5f5f5;
     cursor: pointer;
 
     &:hover {
-      background: color.adjust($liceo-red, $lightness: -8%);
+      background: darken($liceo-red, 8%);
     }
   }
 }
 
 
 .history-table-wrapper {
-  max-height: 200px;
+  max-height: clamp(150px, 30vh, 1000px);
   overflow-y: auto;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;

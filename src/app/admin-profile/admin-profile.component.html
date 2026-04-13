@@ -4,40 +4,52 @@
 <div class="content">
 
     <div class="profile-card">
-    <div class="profile-img-container">
-        <div class="circle-frame">
-        <img src="assets/images/admin_profile.jpg" alt="Admin Profile">
-        </div>
-    </div>
-
+     <app-profile-photo [editable]="true"></app-profile-photo>
     <div class="info-fields">
         <div class="field-group">
         <label>FULL NAME (LAST NAME, FIRST NAME, M.I.)</label>
         <div class="input-wrapper">
-            <input value="Alvarez, James Jason, R. PHD." disabled />
+            <input [value]="admin().fullName" disabled />
         </div>
-        </div>
-
-        <div class="field-group">
-        <label>AGE</label>
-        <input value="26 years old" disabled />
-        </div>
-
-        <div class="field-group">
-        <label>SEX</label>
-        <input value="Male" disabled />
         </div>
 
         <div class="field-group">
         <label>EMAIL</label>
-        <input value="jamesja45620@liceo.edu.ph" disabled />
+        <input [value]="admin().email" disabled />
         </div>
 
         <div class="field-group">
         <label>PHONE</label>
-        <input value="+63 9523004572" disabled />
+        <input [value]="admin().phone" disabled />
         </div>
+        <button class="edit-info-btn"(click)="openEditInfo()">Edit info</button>
     </div>
     </div>
 </div>
+</div>
+<div class="modal-overlay" *ngIf="showEditInfo" (click)="closeEditInfo()">
+  <div class="modal edit-modal" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeEditInfo()">&#x2715;</button>
+
+    <div class="modal-body">
+      <h3>Edit Profile Information</h3>
+
+      <label class="edit-modal-lable">Last Name</label>
+      <input type="text" [(ngModel)]="editLastName" name="editLastName" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">First Name</label>
+      <input type="text" [(ngModel)]="editFirstName" name="editFirstName" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">Email</label>
+      <input type="email" [(ngModel)]="editEmail" name="editEmail" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">Phone Number</label>
+      <input type="text" [(ngModel)]="editPhone" name="editPhone" class="edit-modal-input" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeEditInfo()">Cancel</button>
+      <button class="btn-apply" (click)="saveInfo()">Save</button>
+    </div>
+  </div>
 </div>

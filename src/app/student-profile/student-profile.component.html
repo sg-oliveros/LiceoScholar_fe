@@ -8,16 +8,17 @@
 
       <div class="info">
         <label>Last Name, First Name, M.I.</label>
-        <input [value]="student().fullName"/>
+        <input [value]="student().fullName" disabled />
 
         <label>Email</label>
-        <input [value]="student().email"/>
+        <input [value]="student().email" disabled />
 
         <label>Phone Number</label>
-        <input [value]="student().phone"/>
+        <input [value]="student().phone" disabled />
 
         <label>Course</label>
-        <input [value]="student().course" />
+        <input [value]="student().course" disabled />
+
         <button class="edit-info-btn" (click)="openEditInfo()">Edit info</button>
       </div>
       
