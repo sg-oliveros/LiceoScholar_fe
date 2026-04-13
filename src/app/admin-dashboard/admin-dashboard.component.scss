@@ -35,9 +35,13 @@ $sidebar-color: #8b0000;
   
   .chart-wrapper {
     position: relative;
-    height: 250px; // Essential for Chart.js
+    flex: 1;
+    height: 320px; // Essential for Chart.js
     width: 100%;
   }
+}
+.activity-chart-canvas {
+  height: 100% !important;
 }
 
 // Sidebar/Status Area

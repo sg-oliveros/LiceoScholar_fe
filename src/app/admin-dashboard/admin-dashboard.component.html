@@ -12,18 +12,17 @@
 
       <aside class="side-info">
         <div class="profile-card">
-          <p class="profile-label">PROFILE</p>
-          <div class="avatar"></div>
-          <p class="name">Alvarez, James Jason, R. PHD.</p>
+          <app-profile-photo width="145px" height="145px" [editable]="false"></app-profile-photo>
+          <p class="name">{{admin().fullName}}</p>
         </div>
         <div class="status-cards">
           <div class="status-box">
             <span>Active</span>
-            <h2>{{ totalActiveUsers }}</h2>
+            <h2>{{ admin().activeScholarships }}</h2>
           </div>
           <div class="status-box">
             <span>Total Users</span>
-            <h2>{{ totalUsers }}</h2>
+            <h2>{{ admin().totalUsers }}</h2>
           </div>
         </div>
       </aside>
@@ -32,7 +31,7 @@
     <section class="card activity-chart">
         <h3>Daily Application</h3>
         <div class="chart-wrapper">
-          <canvas #activityChart></canvas>
+          <canvas class="activity-chart-canvas" #activityChart></canvas>
         </div>
       </section>
   </main>

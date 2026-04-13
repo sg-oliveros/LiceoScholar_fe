@@ -3,15 +3,20 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
-export interface DashboardStats {
-  activeUsers: number;
-  totalUsers: number;
-  dailyApplications: number[];
-  collegeData: {
-    labels: string[];
-    data: number[];
-    backgroundColor: string[];
-  };
+export interface ScholarStats {
+  Active_Scholarships: number;
+  Total_Users: number;
+}
+
+export interface DailyApplicationStat {
+  Date: string;
+  Total_Applications: number;
+}
+
+export interface UsersByCollegeStat {
+  CollegeID: number;
+  CollegeName: string;
+  Total_Users: number;
 }
 
 @Injectable({
@@ -25,26 +30,20 @@ export class DashboardService {
     private authService: AuthService
   ) {}
 
-  getDashboardStats(): Observable<DashboardStats> {
-    return this.http.get<DashboardStats>(`${this.apiUrl}/stats/dashboard`, {
+  getScholarStats(): Observable<ScholarStats> {
+    return this.http.get<ScholarStats>(`${this.apiUrl}/stats/scholars`, {
       headers: this.authService.getAuthHeaders()
     });
   }
 
-  getUserStats(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/stats/users`, {
+  getDailyApplicationsStats(): Observable<DailyApplicationStat[]> {
+    return this.http.get<DailyApplicationStat[]>(`${this.apiUrl}/stats/dailyApplications`, {
       headers: this.authService.getAuthHeaders()
     });
   }
 
-  getApplicationStats(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/stats/applications`, {
-      headers: this.authService.getAuthHeaders()
-    });
-  }
-
-  getUsersByCollege(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/stats/usersByCollege`, {
+  getUsersByCollegeStats(): Observable<UsersByCollegeStat[]> {
+    return this.http.get<UsersByCollegeStat[]>(`${this.apiUrl}/stats/usersByCollege`, {
       headers: this.authService.getAuthHeaders()
     });
   }

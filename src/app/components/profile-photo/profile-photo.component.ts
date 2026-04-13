@@ -17,6 +17,9 @@ export class ProfilePhotoComponent {
 
   @Input() userId: number | null = null;
   @Input() editable: boolean = false;
+  @Input() width: string = '150px';
+  @Input() height: string = '150px';
+  @Input() editIconSize: string = '30px';
 
   photoUrl = signal<string>('assets/images/default-avatar.png');
   isLoading = signal<boolean>(false);
@@ -35,7 +38,7 @@ export class ProfilePhotoComponent {
     this.uploadService.getProfilePhoto(id).subscribe({
       next: (response) => {
         this.photoUrl.set(this.uploadService.getPhotoUrl(response.photoUrl));
-        
+        this.cdr.detectChanges(); 
       },
       error: () => {
         this.photoUrl.set('assets/images/default-avatar.png');
