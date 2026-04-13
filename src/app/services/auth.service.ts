@@ -29,6 +29,13 @@ interface GetMeResponse {
   user: User;
 }
 
+interface UpdateUserData {
+  FirstName?: string;
+  LastName?: string;
+  Email?: string;
+  Phone_number?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -89,6 +96,13 @@ export class AuthService {
     const token = this.getToken();
     console.log('getMe - token from sessionStorage:', token ? 'exists' : 'null');
     return this.http.get<GetMeResponse>(`${this.apiUrl}/me`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+  }
+
+  updateUser(userId: number, data: UpdateUserData): Observable<any> {
+    const token = this.getToken();
+    return this.http.put(`http://localhost:3000/users/${userId}`, data, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
   }

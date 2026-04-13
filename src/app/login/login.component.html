@@ -8,7 +8,7 @@
 <div class="forms">
    
    <div class="app-login-form">
-      <app-switch-form (modeChange)="onModeChange($event)"></app-switch-form>
+      <app-switch-form (modeChange)="onModeChange($event)" *ngIf="mode() !== 'forget'"></app-switch-form>
       
       <div *ngIf="errorMessage()" class="error-message">{{ errorMessage() }}</div>
 

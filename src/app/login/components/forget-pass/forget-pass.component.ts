@@ -30,18 +30,6 @@ export class ForgetPassComponent {
     return this.newPassword.length > 0 && this.newPassword === this.confirmPassword;
   }
 
-  checkPasswordMatch(): void {
-    if (this.confirmPassword.length > 0 && this.newPassword !== this.confirmPassword) {
-      this.passwordError = 'Passwords do not match';
-    } else {
-      this.passwordError = '';
-    }
-  }
-
-  onEmailInput(): void {
-    console.log('Email typed:', this.email);
-  }
-
   nextStep() {
     console.log('nextStep called, email:', this.email);
     if (!this.email || this.email.trim() === '') {

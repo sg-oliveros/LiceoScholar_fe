@@ -1,0 +1,46 @@
+<div class="profile-photo-container">
+  <div class="photo-wrapper">
+    <img 
+      [src]="previewUrl || photoUrl()" 
+      alt="Profile Photo" 
+      class="profile-photo"
+      (error)="photoUrl.set('assets/images/default-avatar.png')"
+    />
+    <div class="loading-overlay" *ngIf="isLoading()">
+      <span>Uploading...</span>
+    </div>
+  </div>
+
+  <div class="photo-actions" *ngIf="editable">
+    <input 
+      type="file" 
+      #fileInput
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      style="display: none"
+    />
+    
+    <div class="preview-actions" *ngIf="previewUrl; else selectTemplate">
+      <button type="button" class="btn-save" (click)="uploadPhoto()" [disabled]="isLoading()">
+        {{ isLoading() ? 'Saving...' : 'Save Photo' }}
+      </button>
+      <button type="button" class="btn-cancel" (click)="cancelUpload()" [disabled]="isLoading()">
+        Cancel
+      </button>
+    </div>
+    
+    <ng-template #selectTemplate>
+      <button type="button" class="btn-change" (click)="fileInput.click()">
+        Change Photo
+      </button>
+      <button 
+        *ngIf="!photoUrl().includes('default-avatar')" 
+        type="button" 
+        class="btn-delete" 
+        (click)="deletePhoto()"
+        [disabled]="isLoading()">
+        Delete Photo
+      </button>
+    </ng-template>
+  </div>
+</div>
