@@ -14,7 +14,7 @@
     placeholder="Password"
     [(ngModel)]="password"
   />
-  <button class="forgotpassword" (click)="onforget.emit()">Forgot password?</button>
+  <button type="button" class="forgotpassword" (click)="onforget.emit()">Forgot password?</button>
   
   <button type="submit" [disabled]="disabled()" (click)="onsubmitClicked()">
     Login

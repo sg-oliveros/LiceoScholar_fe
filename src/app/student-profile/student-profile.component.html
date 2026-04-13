@@ -4,33 +4,27 @@
   <div class="content">
 
     <div class="profile-section">
-      <div class="profile-img-wrapper">
-        <img [src]="student().profileImage" alt="Profile" class="profile-img" />
-        <button class="edit-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-          </svg>
-        </button>
-      </div>
+      <app-profile-photo [editable]="true"></app-profile-photo>
 
       <div class="info">
         <label>Last Name, First Name, M.I.</label>
-        <input [value]="student().fullName" disabled />
+        <input [value]="student().fullName"/>
 
         <label>Email</label>
-        <input [value]="student().email" disabled />
+        <input [value]="student().email"/>
 
         <label>Phone Number</label>
-        <input [value]="student().phone" disabled />
+        <input [value]="student().phone"/>
 
         <label>Course</label>
-        <input [value]="student().course" disabled />
+        <input [value]="student().course" />
+        <button class="edit-info-btn" (click)="openEditInfo()">Edit info</button>
       </div>
+      
     </div>
 
     <div class="apply-row">
-      <button class="apply-btn" (click)="openModal()">Apply</button>
+      <button class="apply-btn" (click)="openApplyModal()">Apply</button>
     </div>
 
     <div>
@@ -55,12 +49,40 @@
   </div>
 </div>
 
-<!-- APPLY MODAL -->
-<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
-  <div class="modal" (click)="$event.stopPropagation()">
-    <button class="modal-close" (click)="closeModal()">&#x2715;</button>
+<!-- EDIT INFO MODAL -->
+<div class="modal-overlay" *ngIf="showEditInfo" (click)="closeEditInfo()">
+  <div class="modal edit-modal" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeEditInfo()">&#x2715;</button>
 
     <div class="modal-body">
+      <h3>Edit Profile Information</h3>
+
+      <label class="edit-modal-lable">Last Name</label>
+      <input type="text" [(ngModel)]="editLastName" name="editLastName" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">First Name</label>
+      <input type="text" [(ngModel)]="editFirstName" name="editFirstName" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">Email</label>
+      <input type="email" [(ngModel)]="editEmail" name="editEmail" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">Phone Number</label>
+      <input type="text" [(ngModel)]="editPhone" name="editPhone" class="edit-modal-input" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeEditInfo()">Cancel</button>
+      <button class="btn-apply" (click)="saveInfo()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- APPLY MODAL -->
+<div class="modal-overlay" *ngIf="showApplyModal" (click)="closeApplyModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeApplyModal()">&#x2715;</button>
+
+    <div class="edit-modal-body">
       <label class="modal-label">
         Scholarship Type <span class="required">*</span>
       </label>
@@ -79,8 +101,8 @@
     </div>
 
     <div class="modal-actions">
-      <button class="btn-cancel" (click)="closeModal()">Cancel</button>
-      <button class="btn-apply" (click)="submitApplication(); closeModal()" [disabled]="!selectedScholarship">APPLY</button>
+      <button class="btn-cancel" (click)="closeApplyModal()">Cancel</button>
+      <button class="btn-apply" (click)="submitApplication(); closeApplyModal()" [disabled]="!selectedScholarship">APPLY</button>
     </div>
   </div>
 </div>

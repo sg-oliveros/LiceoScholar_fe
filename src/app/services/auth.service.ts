@@ -29,6 +29,13 @@ interface GetMeResponse {
   user: User;
 }
 
+interface UpdateUserData {
+  FirstName?: string;
+  LastName?: string;
+  Email?: string;
+  Phone_number?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +45,23 @@ export class AuthService {
 
   login(credentials: LoginCredentials): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(response => {
+        sessionStorage.setItem('authToken', response.token);
+        sessionStorage.setItem('currentUser', JSON.stringify(response.user));
+      })
+    );
+  }
+
+  forgetPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { Email: email });
+  }
+  resetPassword(otp: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, { OTP_Code: otp, NewPassword: password });
+  }
+  
+  
+  register(credentials: LoginCredentials): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/register`, credentials).pipe(
       tap(response => {
         sessionStorage.setItem('authToken', response.token);
         sessionStorage.setItem('currentUser', JSON.stringify(response.user));
@@ -76,11 +100,18 @@ export class AuthService {
     });
   }
 
-  getAuthHeaders(): { [header: string]: string } {
+getAuthHeaders(): { [header: string]: string } {
     const token = this.getToken();
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     };
+  }
+
+  updateUser(userId: number, data: UpdateUserData): Observable<any> {
+    const token = this.getToken();
+    return this.http.put(`http://localhost:3000/users/${userId}`, data, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
   }
 }

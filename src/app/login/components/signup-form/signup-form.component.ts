@@ -9,7 +9,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 })
 export class SignupFormComponent {
   public disabled = input<boolean>(false);
-
   public firstName = model<string>('');
   public lastName = model<string>('');
   public course = model<number | string>('');

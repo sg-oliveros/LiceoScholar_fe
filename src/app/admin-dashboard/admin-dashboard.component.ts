@@ -11,8 +11,7 @@ Chart.register(...registerables);
   standalone: true,
   imports: [CommonModule, AdminSidebarComponent],
   templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.scss'],
-  providers: [DashboardService]
+  styleUrls: ['./admin-dashboard.component.scss']
 })
 export class AdminDashboardComponent implements AfterViewInit {
   @ViewChild('activityChart') private chartCanvas!: ElementRef;

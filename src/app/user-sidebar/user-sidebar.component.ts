@@ -1,19 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-user-sidebar',
     standalone: true,
-    imports: [CommonModule,RouterLink, RouterLinkActive],
+    imports: [CommonModule],
     templateUrl: './user-sidebar.component.html',
     styleUrls: ['./user-sidebar.component.scss']
 })
 export class UserSidebarComponent {
-    public activeItem = signal<'profile'>('profile');
+  activeTab = 'profile';
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-    setActive(item: 'profile') {
-    this.activeItem.set(item);
-    }
+  setActive(tab: string) {
+    this.activeTab = tab;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
 }

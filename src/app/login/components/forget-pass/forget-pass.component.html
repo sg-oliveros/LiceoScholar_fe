@@ -1,23 +1,26 @@
-<form class="forget-form">
+<form class="forget-form" (keydown.enter)="$event.preventDefault()">
   
-  <div *ngIf="step == 1">
+  <div *ngIf="step === 1">
     <h3>RESET PASSWORD</h3>
     <p>Enter your email to get a code</p>
     
-    <input type="email" placeholder="Email Address" name="email" required />
+    <input type="email" placeholder="Email Address" [(ngModel)]="email" name="email"required />
+    <p class="error-message" *ngIf="emailError">{{ emailError }}</p>
     
-    <button type="button" (click)="nextStep()">
-      Send Code
+    <button type="button" (click)="nextStep()" [disabled]="isLoading">
+      {{ isLoading ? 'Sending...' : 'Send Code' }}
     </button>
   </div>
 
-  <div *ngIf="step == 2">
+  <div *ngIf="step === 2">
     <h3>ENTER DETAILS</h3>
-    <input type="text" class="otp-input" maxlength="6" placeholder="000000" />
-    <input type="password" placeholder="New Password" />
-    <input type="password" placeholder="Confirm Password" />
+    <input type="text" class="otp-input" maxlength="6" placeholder="000000" [ngModel]="otp" (ngModelChange)="otp = $event" name="otp" />
+    <p class="error-message" *ngIf="otpError">{{ otpError }}</p>
+    <input type="password" placeholder="New Password" [(ngModel)]="newPassword" name="newPassword" />
+    <input type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" />
+    <p class="error-message" *ngIf="passwordError">{{ passwordError }}</p>
 
-    <button type="button" (click)="finishReset()">
+    <button type="button" (click)="finishReset()" [disabled]="!passwordsMatch()">
       Submit
     </button>
   </div>
