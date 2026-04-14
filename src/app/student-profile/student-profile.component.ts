@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ProfilePhotoComponent as ProfilePhotoComponent_1 } from "../components/profile-photo/profile-photo.component";
 import { ApplicationsService } from '../services/applications.service';
 import { AuthService } from '../services/auth.service';
+import { RequirementsService } from '../services/requirements.service';
 import { UserSidebarComponent } from '../user-sidebar/user-sidebar.component';
 
 @Component({
@@ -16,6 +17,7 @@ import { UserSidebarComponent } from '../user-sidebar/user-sidebar.component';
 export class StudentProfileComponent implements OnInit {
   private authService = inject(AuthService);
   private applicationsService = inject(ApplicationsService);
+  private requirementsService = inject(RequirementsService);
   private cd = inject(ChangeDetectorRef);
 
   showEditInfo = false;
@@ -41,6 +43,8 @@ export class StudentProfileComponent implements OnInit {
   });
 
   applications = signal<any[]>([]);
+  requirements = signal<any[]>([]);
+  filteredRequirements = signal<any[]>([]);
 
   constructor() { }
 
@@ -77,7 +81,7 @@ export class StudentProfileComponent implements OnInit {
       FirstName: this.editFirstName,
       LastName: this.editLastName,
       Email: this.editEmail,
-      Phone_number: this.editPhone
+      Phone_Number: this.editPhone
     };
 
     // You'll need to add updateUser to auth.service.ts
@@ -111,8 +115,9 @@ export class StudentProfileComponent implements OnInit {
         });
        
         this.isLoading = false;
-        // Load applications after user data is loaded
+        // Load applications and requirements after user data is loaded
         this.loadApplications();
+        this.loadRequirements();
       },
       error: (err) => {
         console.error('Failed to load user data:', err);
@@ -129,6 +134,22 @@ export class StudentProfileComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to load applications:', err);
+      }
+    });
+  }
+  filterRequirements(): void {
+    this.filteredRequirements.set(this.requirements().filter(req => req.status === 'Missing'));
+  }
+
+  loadRequirements(): void {
+    if (!this.currentUserId) return;
+    this.requirementsService.getUserRequirements(this.currentUserId).subscribe({
+      next: (response) => {
+        this.requirements.set(response);
+        this.filterRequirements();
+      },
+      error: (err) => {
+        console.error('Failed to load requirements:', err);
       }
     });
   }

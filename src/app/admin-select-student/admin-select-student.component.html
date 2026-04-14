@@ -6,41 +6,76 @@
     <span class="breadcrumb">{{ studentName | uppercase }}</span>
     </div>
 
-    <div class="profile-card">
+    <div *ngIf="isLoading" class="loading">Loading...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <div class="content-container">
+    <div class="profile-card" *ngIf="student && !isLoading">
     <div class="avatar-container">
-        <div class="image-circle">
-        <img src="assets/samantha-profile.png" alt="Student Photo">
-        <button class="edit-badge">
-            <span class="material-icons">edit</span>
-        </button>
-        </div>
+        <app-profile-photo 
+            [userId]="userId"
+            width="400px" 
+            height="400px" 
+            [editable]="false">
+        </app-profile-photo>
     </div>
 
     <div class="details-list">
         <div class="detail-item">
         <label>FULL NAME (LAST NAME, FIRST NAME, M.I.)</label>
-        <div class="info-box">{{ studentName }}</div>
+        <div class="info-box">{{ student.FullName }}</div>
         </div>
 
         <div class="detail-item">
-        <label>COURSE & YR LEVEL</label>
-        <div class="info-box">CISCO-BSIT 2ND YEAR</div>
+        <label>COURSE</label>
+        <div class="info-box">{{ student.Course }}</div>
         </div>
 
-        <div class="detail-item">
+        <div class="detail-item" *ngIf="student.Scholarship && student.Scholarship !== 'No Scholarship'">
         <label>TYPE OF SCHOLARSHIP</label>
-        <div class="info-box">ACADEMIC SCHOLARSHIP (FULL SCHOLAR)</div>
+        <div class="info-box">{{ student.Scholarship }}</div>
         </div>
 
         <div class="detail-item">
-        <label>SEX</label>
-        <div class="info-box">FEMALE</div>
+        <label>EMAIL</label>
+        <div class="info-box">{{ student.Email }}</div>
         </div>
 
         <div class="detail-item">
-        <label>AGE</label>
-        <div class="info-box">18 YEARS OLD</div>
+        <label>PHONE NUMBER</label>
+        <div class="info-box">{{ student.Phone_Number }}</div>
         </div>
     </div>
     </div>
+    <div class="requirements-section" *ngIf="requirements().length > 0">
+        <h3>Requirements</h3>
+        <div class="req-table">
+            <div class="req-table-head">
+                <span>Requirement ID</span>
+                <span>Requirement Name</span>
+                <span>Status</span>
+                <span>Submitted Date</span>
+            </div>
+            <div class="req-table-wrapper">
+                <div class="req-table-row" *ngFor="let req of requirements(); let i = index">
+                    <span>{{ req.requirementID }}</span>
+                    <span>{{ req.requirementName }}</span>
+                    <span class="status-cell" (click)="toggleDropdown(i)">
+                        <span [ngClass]="req.status.toLowerCase()" class="status-text">{{ req.status }}▾</span>
+                        
+                        <div class="dropdown" *ngIf="openDropdownIndex === i">
+                            
+                            <div class="dropdown-item text-submitted" (click)="updateRequirementStatus(req.requirementID, 'Submitted')">Submitted</div>
+                            
+                            <div class="dropdown-item text-missing" (click)="updateRequirementStatus(req.requirementID, 'Missing')">Missing</div>
+                        </div>
+                    </span>
+                    <span>{{ req.dateSubmitted ? (req.dateSubmitted | date:'medium') : 'Not submitted' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
 </div>
+<div></div>

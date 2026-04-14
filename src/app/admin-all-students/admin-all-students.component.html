@@ -1,0 +1,90 @@
+<div class="admin-container">
+  <app-admin-sidebar></app-admin-sidebar>
+  
+  <div class="main-content">
+    <h1>Student List</h1>
+
+    <div class="search-container">
+    <div class="search-wrapper">
+    <span class="material-icons search-icon">search</span>
+    
+    <input type="text" placeholder="Search..." [(ngModel)]="searchTerm"  class="search-input">
+    <button class="filter-btn" (click)="toggleFilter()">
+      <span class="material-icons">filter_list</span>
+    </button>
+    <div class="filter-overlay" *ngIf="isFilterOpen">
+
+        <div class="filter-row">
+            <label>Course</label>
+            <select [(ngModel)]="filters.course">
+                <option value="">All</option>
+                <option value="BA-COMM">BA-COMM</option>
+                <option value="BA-IS">BA-IS</option>
+                <option value="BA-PS">BA-PS</option>
+                <option value="BS-BIO">BS-BIO</option>
+                <option value="BS-PSYCH">BS-PSYCH</option>
+                <option value="BSA">BSA</option>
+                <option value="BSBA">BSBA</option>
+                <option value="BSMA">BSMA</option>
+                <option value="BS-CRIM">BS-CRIM</option>
+                <option value="BS-CE">BS-CE</option>
+                <option value="BS-CPE">BS-CPE</option>
+                <option value="BS-ECE">BS-ECE</option>
+                <option value="BS-EE">BS-EE</option>
+                <option value="BS-ME">BS-ME</option>
+                <option value="BS-IT">BS-IT</option>
+                <option value="BS-CS">BS-CS</option>
+                <option value="BS-MLS">BS-MLS</option>
+                <option value="BS-MUSIC">BS-MUSIC</option>
+                <option value="BS-NURS">BS-NURS</option>
+                <option value="DMD">DMD</option>
+                <option value="BS-PHARM">BS-PHARM</option>
+                <option value="BS-PT">BS-PT</option>
+                <option value="BS-OT">BS-OT</option>
+                <option value="BS-RADTECH">BS-RADTECH</option>
+                <option value="BSED">BSED</option>
+                <option value="BEED">BEED</option>
+            </select>
+        </div>
+
+        <div class="filter-row">
+            <label>Active Scholar</label>
+            <select [(ngModel)]="filters.activeScholar">
+                <option value="">All</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button class="btn-cancel" (click)="removeFilter()">Cancel</button>
+            <button class="btn-save" (click)="toggleFilter()">Filter</button>
+        </div>
+</div>
+    </div>
+    
+    
+  </div>
+  <div class="student-table">
+    <div class="thead">
+        <span>Full Name</span>
+        <span>Email</span>
+        <span>Course</span>
+        <span>Active Scholar</span>
+    </div>
+    <div class="tbody-container">
+      <div class="trow clickable" *ngFor="let student of filteredStudents()" (click)="onSelectStudent(student)">
+        <span class="name-cell">{{ student.FullName }}</span>
+        <span>{{ student.Email }}</span>
+        <span>{{ student.Course }}</span>
+        <span>
+          <span [class.active]="student.IsActiveScholar === 'Yes'" [class.inactive]="student.IsActiveScholar === 'No'">
+            {{ student.IsActiveScholar === 'Yes' ? 'Yes' : 'No' }}
+          </span>
+        </span>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>

@@ -3,10 +3,12 @@
     type="email"
     id="email"
     name="email"
-    placeholder="Email"
+    placeholder="School Email (e.g. name@liceo.edu.ph)"
     [(ngModel)]="email"
+    pattern=".*@liceo\.edu\.ph$"
+    title="Email must be in the format: name@liceo.edu.ph"
+    required
   />
-
   <input
     type="password"
     id="password"

@@ -68,7 +68,7 @@ export class AdminProfileComponent implements OnInit {
       FirstName: this.editFirstName,
       LastName: this.editLastName,
       Email: this.editEmail,
-      Phone_number: this.editPhone
+      Phone_Number: this.editPhone
     };
 
     // You'll need to add updateUser to auth.service.ts

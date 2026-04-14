@@ -17,6 +17,8 @@ export interface UsersByCollegeStat {
   CollegeID: number;
   CollegeName: string;
   Total_Users: number;
+  college_name?: string;
+  user_count?: number;
 }
 
 @Injectable({

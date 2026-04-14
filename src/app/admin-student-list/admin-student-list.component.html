@@ -2,6 +2,7 @@
 <app-admin-sidebar></app-admin-sidebar>
 
 <div class="main-content">
+<h1>Applications</h1>
 
 <div class="search-container">
     <div class="search-wrapper">
@@ -20,11 +21,56 @@
     </div>
 </div>
 
-     <div class="filter-overlay" *ngIf="isFilterOpen">
+    <div class="filter-overlay" *ngIf="isFilterOpen">
+
+        <div class="filter-row">
+            <label>Scholarship</label>
+            <select [(ngModel)]="filters.scholarship">
+                <option value="">All</option>
+                <option value="Full Scholarship (Academic)">Full Scholarship (Academic)</option>
+                <option value="Half Scholarship (Academic)">Half Scholarship (Academic)</option>
+                <option value="Special Scholarship (Academic)">Special Scholarship (Academic)</option>
+                <option value="Athlete Scholarship (Non-Academic)">Athlete Scholarship (Non-Academic)</option>
+            </select>
+        </div>
+
+        <div class="filter-row">
+            <label>Course</label>
+            <select [(ngModel)]="filters.course">
+                <option value="">All</option>
+                <option value="BA-COMM">BA-COMM</option>
+                <option value="BA-IS">BA-IS</option>
+                <option value="BA-PS">BA-PS</option>
+                <option value="BS-BIO">BS-BIO</option>
+                <option value="BS-PSYCH">BS-PSYCH</option>
+                <option value="BSA">BSA</option>
+                <option value="BSBA">BSBA</option>
+                <option value="BSMA">BSMA</option>
+                <option value="BS-CRIM">BS-CRIM</option>
+                <option value="BS-CE">BS-CE</option>
+                <option value="BS-CPE">BS-CPE</option>
+                <option value="BS-ECE">BS-ECE</option>
+                <option value="BS-EE">BS-EE</option>
+                <option value="BS-ME">BS-ME</option>
+                <option value="BS-IT">BS-IT</option>
+                <option value="BS-CS">BS-CS</option>
+                <option value="BS-MLS">BS-MLS</option>
+                <option value="BS-MUSIC">BS-MUSIC</option>
+                <option value="BS-NURS">BS-NURS</option>
+                <option value="DMD">DMD</option>
+                <option value="BS-PHARM">BS-PHARM</option>
+                <option value="BS-PT">BS-PT</option>
+                <option value="BS-OT">BS-OT</option>
+                <option value="BS-RADTECH">BS-RADTECH</option>
+                <option value="BSED">BSED</option>
+                <option value="BEED">BEED</option>
+            </select>
+        </div>
 
         <div class="filter-row">
             <label>Status</label>
             <select [(ngModel)]="filters.status">
+                <option value="">All</option>
                 <option value="Pending">Pending</option>
                 <option value="Approved">Approved</option>
                 <option value="Rejected">Rejected</option>
@@ -33,7 +79,7 @@
         </div>
 
         <div class="filter-actions">
-            <button class="btn-cancel" (click)="toggleFilter()">Cancel</button>
+            <button class="btn-cancel" (click)="removeFilter()">Cancel</button>
             <button class="btn-save" (click)="toggleFilter()">Filter</button>
         </div>
 </div>
@@ -41,7 +87,7 @@
     <div class="student-table">
     <div class="thead">
         <span>Last Name, First Name, MI.</span>
-        <span>Course & Yr Level</span>
+        <span>Course</span>
         <span>Scholarship Type</span>
         <span>Status</span>
     </div>
@@ -59,11 +105,11 @@
         <span>{{ student.scholarshipType }}</span>
         
         <span class="status-selector">
-            <button (click)="toggleDropdown(i); $event.stopPropagation()" [ngClass]="student.status.toLowerCase()">
+            <button (click)="toggleDropdown(i, $event); $event.stopPropagation()" [ngClass]="student.status.toLowerCase()">
                 {{ student.status }} ▾
             </button>
             
-            <div class="dropdown-menu" *ngIf="openDropdownIndex === i">
+            <div class="dropdown-menu" *ngIf="openDropdownIndex === i" [ngStyle]="{'position': 'fixed', 'top.px': dropdownPosition.top, 'left.px': dropdownPosition.left}">
                 <div (click)="updateStatus(student, 'Pending')" class="text-pending">Pending</div>
                 <div (click)="updateStatus(student, 'Approved')" class="text-approved">Approved</div>
                 <div (click)="updateStatus(student, 'Rejected')"class="text-rejected">Rejected</div>

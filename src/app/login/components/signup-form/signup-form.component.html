@@ -38,7 +38,10 @@
     id="schoolEmail"
     name="schoolEmail"
     [(ngModel)]="schoolEmail"
-    placeholder="School Email"
+    placeholder="School Email (e.g. name@liceo.edu.ph)"
+    pattern=".*@liceo\.edu\.ph$"
+    title="Email must be in the format: name@liceo.edu.ph"
+    required
   />
 
   <input

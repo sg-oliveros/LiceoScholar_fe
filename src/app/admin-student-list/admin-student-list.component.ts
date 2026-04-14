@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component';
+import { ApplicationsService } from '../services/applications.service';
+import { AuthService } from '../services/auth.service';
 
 export interface Student {
+    applicationId: number;
+    userId: number;
     name: string;
     course: string;
     scholarshipType: string;
@@ -18,12 +22,19 @@ export interface Student {
     templateUrl: './admin-student-list.component.html',
     styleUrls: ['./admin-student-list.component.scss']
 })
-export class StudentListComponent implements OnDestroy {
-    constructor(private router: Router, private cdr: ChangeDetectorRef) {}
+export class StudentListComponent implements OnInit, OnDestroy {
+    private router = inject(Router);
+    private cdr = inject(ChangeDetectorRef);
+    private applicationsService = inject(ApplicationsService);
+    private authService = inject(AuthService);
+
+    isLoading = false;
+    error: string | null = null;
 
     searchTerm: string = '';
     isFilterOpen: boolean = false;
     openDropdownIndex: number | null = null;
+    dropdownPosition = { top: 0, left: 0 };
 
     // Finish term properties
     showFinishDialog: boolean = false;
@@ -32,14 +43,38 @@ export class StudentListComponent implements OnDestroy {
 
     filters = { course: '', yearLevel: '', scholarship: '', status: '' };
 
-    students: Student[] = [
-    { name: 'Oliveros, Samantha Gayle R.', course: 'CISCO BSIT 2-1', scholarshipType: 'Academic Scholarship', status: 'Approved' },
-    { name: 'Paradillo, Raque Alexy', course: 'CISCO BSIT 2-1', scholarshipType: 'Non-Academic Scholar..', status: 'Rejected' },
-    { name: 'Reyes, Christy Ann E. Reyes', course: 'CISCO BSIT 2-1', scholarshipType: 'Non-Academic Scholar..', status: 'Pending' }
-    ];
+    students: Student[] = [];
+
+    ngOnInit() {
+        this.loadApplications();
+    }
+
+    loadApplications() {
+        this.isLoading = true;
+        this.applicationsService.getAllApplications().subscribe({
+            next: (applications) => {
+                // Map backend Application to frontend Student interface
+                this.students = applications.map(app => ({
+                    applicationId: app.ApplicationID,
+                    userId: app.UserID,
+                    name: app.FullName,
+                    course: app.Course,
+                    scholarshipType: app.ScholarshipType,
+                    status: app.Status as 'Pending' | 'Approved' | 'Rejected' | 'Finished'
+                }));
+                this.isLoading = false;
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                console.error('Failed to load applications:', err);
+                this.error = 'Failed to load applications';
+                this.isLoading = false;
+            }
+        });
+    }
 
     filteredStudents() {
-    return this.students.filter(s => {
+        return this.students.filter(s => {
             const matchesSearch = s.name.toLowerCase().includes(this.searchTerm.toLowerCase());
             const matchesCourse = !this.filters.course || s.course === this.filters.course;
             const matchesScholarship = !this.filters.scholarship || s.scholarshipType === this.filters.scholarship;
@@ -50,15 +85,61 @@ export class StudentListComponent implements OnDestroy {
     }
 
     onSelectStudent(student: Student) {
-        this.router.navigate(['/admin/student-profile', student.name]);
+        this.router.navigate(['/admin/student-profile', student.userId]);
+    }
+
+    removeFilter() {
+        this.filters = { course: '', yearLevel: '', scholarship: '', status: '' };
+        this.isFilterOpen = false;
     }
 
     toggleFilter() { this.isFilterOpen = !this.isFilterOpen; }
-    toggleDropdown(i: number) { this.openDropdownIndex = this.openDropdownIndex === i ? null : i; }
+    toggleDropdown(i: number, event?: MouseEvent) { 
+        if (this.openDropdownIndex === i) {
+            this.openDropdownIndex = null;
+        } else {
+            this.openDropdownIndex = i;
+            if (event) {
+                const target = event.target as HTMLElement;
+                const rect = target.getBoundingClientRect();
+                this.dropdownPosition = {
+                    top: rect.bottom + window.scrollY,
+                    left: rect.left + window.scrollX + (rect.width/2)-50
+                };
+            }
+        }
+    }
 
-    updateStatus(student: Student, newStatus: any) {
-    student.status = newStatus;
-    this.openDropdownIndex = null;
+    updateStatus(student: Student, newStatus: 'Pending' | 'Approved' | 'Rejected' | 'Finished') {
+        // Update local state first for immediate feedback
+        student.status = newStatus;
+        this.openDropdownIndex = null;
+
+        if (newStatus === 'Pending') {
+            this.applicationsService.changeToPending(student.applicationId).subscribe({
+                error: (err) => {
+                    console.error('Failed to change to pending:', err);
+                    alert('Failed to change application to pending');
+                }
+            });
+            return;
+        }
+        // Call appropriate API based on status
+        if (newStatus === 'Approved') {
+            this.applicationsService.acceptApplication(student.applicationId).subscribe({
+                error: (err) => {
+                    console.error('Failed to approve:', err);
+                    alert('Failed to approve application');
+                }
+            });
+        } else if (newStatus === 'Rejected') {
+            this.applicationsService.rejectApplication(student.applicationId).subscribe({
+                error: (err) => {
+                    console.error('Failed to reject:', err);
+                    alert('Failed to reject application');
+                }
+            });
+        }
     }
 
     // Finish term methods
@@ -76,14 +157,19 @@ export class StudentListComponent implements OnDestroy {
     }
 
     finishTerm() {
-        console.log('Finish term called'); // Debug log
-        // Mark all students as finished
-        this.students.forEach(student => {
-            student.status = 'Finished';
+        this.applicationsService.finishTerm().subscribe({
+            complete: () => {
+                console.log('Term finished successfully');
+                this.showFinishDialog = false;
+                this.clearCountdown();
+                this.loadApplications();
+            },
+            error: (err) => {
+                console.error('Failed to finish term:', err);
+                alert('Failed to finish term');
+                
+            }
         });
-        
-        this.showFinishDialog = false;
-        this.clearCountdown();
     }
 
     private startCountdown() {
@@ -95,9 +181,9 @@ export class StudentListComponent implements OnDestroy {
             const elapsed = Date.now() - startTime;
             
             if (elapsed >= 1000 && counter > 0) {
+                console.log('Countdown tick:', counter);
                 counter--;
                 this.countdownTime = counter;
-                console.log('Countdown:', this.countdownTime);
                 this.cdr.markForCheck();
                 this.cdr.detectChanges(); // Force UI update
                 startTime = Date.now(); // Reset start time

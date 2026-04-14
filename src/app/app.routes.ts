@@ -4,6 +4,7 @@ import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { AdminSelectStudentComponent } from './admin-select-student/admin-select-student.component';
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
 import { StudentListComponent } from './admin-student-list/admin-student-list.component';
+import { AdminAllStudentsComponent } from './admin-all-students/admin-all-students.component';
 import { LoginComponent } from './login/login.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 
@@ -12,6 +13,7 @@ import { StudentProfileComponent } from './student-profile/student-profile.compo
 export const routes: Routes = [
   { path: '', component: LoginComponent }, // default route
   { path: 'admin-students-list', component: StudentListComponent },
+  { path: 'admin-all-students', component: AdminAllStudentsComponent },
   { path: 'admin-profile', component: AdminProfileComponent }, //admin profile
   { path: 'admin', component: AdminSidebarComponent}, // path for the sidebar
   { path: 'admin/student-profile/:id', component: AdminSelectStudentComponent},
