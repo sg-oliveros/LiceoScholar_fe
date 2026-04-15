@@ -75,7 +75,7 @@
     <div class="tbody-container">
       <div class="trow clickable" *ngFor="let student of filteredStudents()" (click)="onSelectStudent(student)">
         <span class="name-cell">{{ student.FullName }}</span>
-        <span>{{ student.Email }}</span>
+        <span class="email-cell">{{ student.Email }}</span>
         <span>{{ student.Course }}</span>
         <span>
           <span [class.active]="student.IsActiveScholar === 'Yes'" [class.inactive]="student.IsActiveScholar === 'No'">

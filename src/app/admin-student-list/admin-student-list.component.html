@@ -87,9 +87,10 @@
     <div class="student-table">
     <div class="thead">
         <span>Last Name, First Name, MI.</span>
-        <span>Course</span>
-        <span>Scholarship Type</span>
-        <span>Status</span>
+        <span class="text-center">Course</span>
+        <span >Scholarship Type</span>
+        <span >Submitted Date</span>
+        <span class="text-center">Status</span>
     </div>
 
     <div class="tbody-container">
@@ -103,6 +104,7 @@
 
         <span>{{ student.course }}</span>
         <span>{{ student.scholarshipType }}</span>
+        <span>{{ student.submittedDate | date:'MMM d, yyyy h:mm a' }}</span>
         
         <span class="status-selector">
             <button (click)="toggleDropdown(i, $event); $event.stopPropagation()" [ngClass]="student.status.toLowerCase()">
@@ -113,7 +115,6 @@
                 <div (click)="updateStatus(student, 'Pending')" class="text-pending">Pending</div>
                 <div (click)="updateStatus(student, 'Approved')" class="text-approved">Approved</div>
                 <div (click)="updateStatus(student, 'Rejected')"class="text-rejected">Rejected</div>
-                <div (click)="updateStatus(student, 'Finished')"class="text-finished">Finished</div>
             </div>
         </span>
     </div>

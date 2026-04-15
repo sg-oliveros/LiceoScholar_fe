@@ -20,16 +20,13 @@ h1 {
     display: flex;
     flex-direction: column;
     min-height: 0;
+    margin-left: 250px;
 }
 
 .tbody-container {
-  max-height: clamp(150px, 50vh, 1000px);
-  min-height: 55vh;
+  height: calc(100vh - 350px);
   overflow-y: auto;
-  
-  
-  
-   // Firefox
+
   -ms-overflow-style: none;  // IE/Edge
   
 }
@@ -43,12 +40,14 @@ h1 {
 
 .thead, .trow {
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr 1fr;
+    text-align: center;
+    grid-template-columns: 1.5fr 2fr 1.3fr 1.2fr;
     padding: 20px;
     align-items: center;
 }
 
 .thead {
+    text-align: center;
     background-color: $liceo-red;
     color: white;
     font-size: 0.8rem;
@@ -69,11 +68,14 @@ h1 {
         }
         
         .name-cell {
+            
+            padding-left: 50px;
             &:hover {
                 color: grey;
                 text-decoration: underline;
             }
         }
+       
     }
 }
 }

@@ -12,6 +12,7 @@ export interface Student {
     name: string;
     course: string;
     scholarshipType: string;
+    submittedDate: string;
     status: 'Pending' | 'Approved' | 'Rejected' | 'Finished';
 }
 
@@ -34,7 +35,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
     searchTerm: string = '';
     isFilterOpen: boolean = false;
     openDropdownIndex: number | null = null;
-    dropdownPosition = { top: 0, left: 0 };
+    dropdownPosition = { top: 0, left: 0 }; 
 
     // Finish term properties
     showFinishDialog: boolean = false;
@@ -60,6 +61,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
                     name: app.FullName,
                     course: app.Course,
                     scholarshipType: app.ScholarshipType,
+                    submittedDate: app.Application_Date,
                     status: app.Status as 'Pending' | 'Approved' | 'Rejected' | 'Finished'
                 }));
                 this.isLoading = false;
@@ -79,9 +81,11 @@ export class StudentListComponent implements OnInit, OnDestroy {
             const matchesCourse = !this.filters.course || s.course === this.filters.course;
             const matchesScholarship = !this.filters.scholarship || s.scholarshipType === this.filters.scholarship;
             const matchesStatus = !this.filters.status || s.status === this.filters.status;
+            
 
             return matchesSearch && matchesCourse && matchesScholarship && matchesStatus;
         });
+        
     }
 
     onSelectStudent(student: Student) {

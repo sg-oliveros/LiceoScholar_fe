@@ -77,7 +77,7 @@ export class ProfilePhotoComponent {
         this.photoUrl.set(this.uploadService.getPhotoUrl(response.photoUrl));
         this.previewUrl = null;
         this.selectedFile = null;
-        alert('Photo uploaded successfully!');
+        
       },
       error: (err) => {
         this.isLoading.set(false);
@@ -109,7 +109,7 @@ export class ProfilePhotoComponent {
         this.isLoading.set(false);
         this.photoUrl.set('assets/images/default-avatar.png');
         this.cdr.detectChanges(); 
-        alert('Photo deleted successfully!');
+        
       },
       error: (err) => {
         this.isLoading.set(false);

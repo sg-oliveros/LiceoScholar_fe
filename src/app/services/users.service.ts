@@ -32,4 +32,8 @@ export class UsersService {
   getStudentsList(): Observable<StudentListItem[]> {
     return this.http.get<StudentListItem[]>(`${this.apiUrl}/users/students`);
   }
+  
+  deleteStudent(userId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/users/${userId}`);
+  }
 }

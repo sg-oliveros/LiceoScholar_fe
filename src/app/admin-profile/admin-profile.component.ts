@@ -74,7 +74,7 @@ export class AdminProfileComponent implements OnInit {
     // You'll need to add updateUser to auth.service.ts
     this.authService.updateUser(this.currentUserId, updateData).subscribe({
       next: () => {
-        alert('Profile saved successfully!');
+        
         this.closeEditInfo();
         this.loadUserData();
       },
