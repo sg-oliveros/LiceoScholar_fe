@@ -118,13 +118,17 @@ padding: 30px;
 
 .req-table {
     background: white;
-    border-radius: 8px;
+    border-radius: 12px;
     border: 0.5px solid #ddd;
+    overflow: hidden;
 }
 
 .req-table-head {
     display: grid;
+    border: 1px solid #800000;
     grid-template-columns: 1fr 2fr 1fr 1.2fr;
+    border-radius: 12px 12px 0 0;
+    
     background: $liceo-red;
     
     span {

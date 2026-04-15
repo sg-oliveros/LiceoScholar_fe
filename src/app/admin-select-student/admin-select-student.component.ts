@@ -72,6 +72,7 @@ export class AdminSelectStudentComponent implements OnInit {
     }
 
     updateRequirementStatus(requirement: any, newStatus: string): void {
+        console.log('Requirement object:', requirement);
         const userId = this.userId
         if (!userId) return;
         this.requirementsService.updateRequirementStatus(userId, requirement.requirementID, newStatus).subscribe({
