@@ -7,11 +7,15 @@ form {
   text-align: center;
 }
 
-h3 { color: white;
+h3 { color: black;
   margin-bottom: 5px;
 }
-
-p { color: white;
+.error-message {
+  color: red;
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+}
+p { color: black;
   font-size: 0.8rem;
   margin-bottom: 15px;
   opacity: 0.8; }
@@ -53,7 +57,7 @@ button {
 
 .back-link {
   background: none;
-  color: white;
+  color: black;
   text-decoration: underline;
   margin-top: 25px;
   font-size: 12px;

@@ -86,16 +86,20 @@
 
     <div class="student-table">
     <div class="thead">
+        <span>School ID</span>
         <span>Last Name, First Name, MI.</span>
         <span class="text-center">Course</span>
         <span >Scholarship Type</span>
         <span >Submitted Date</span>
+        <span>S.Y</span>
         <span class="text-center">Status</span>
     </div>
 
     <div class="tbody-container">
         
         <div class="trow" *ngFor="let student of filteredStudents(); let i = index">
+            
+        <span>{{student.SchoolID}}</span>
         
         <span class="name-cell clickable" (click)="onSelectStudent(student)">
             <span class="indicator" [ngClass]="student.status.toLowerCase()"></span>
@@ -105,7 +109,7 @@
         <span>{{ student.course }}</span>
         <span>{{ student.scholarshipType }}</span>
         <span>{{ student.submittedDate | date:'MMM d, yyyy h:mm a' }}</span>
-        
+        <span>{{ student.schoolYear }}</span>
         <span class="status-selector">
             <button (click)="toggleDropdown(i, $event); $event.stopPropagation()" [ngClass]="student.status.toLowerCase()">
                 {{ student.status }} ▾
@@ -129,7 +133,7 @@
             </div>
             <div class="dialog-content">
                 <p>Are you sure you want to mark all current students as finished for this term?</p>
-                <p class="warning-text">This action will change the status of all students to "Finished".</p>
+                <p class="warning-text">Finish Term: Sets all students to "Finished" and starts the next semester..<br><br> This action is permanent!</p>
                 <div class="timer-container">
                     <p>You can confirm this action in:</p>
                     <div class="timer-display">{{ countdownTime }}s</div>

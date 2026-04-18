@@ -14,6 +14,7 @@ interface LoginResponse {
 }
 
 interface User {
+  SchoolID: number;
   UserID: number;
   FirstName: string;
   LastName: string;
@@ -30,6 +31,7 @@ interface GetMeResponse {
 }
 
 interface UpdateUserData {
+  SchoolID?: number;
   FirstName?: string;
   LastName?: string;
   Email?: string;
@@ -114,4 +116,6 @@ getAuthHeaders(): { [header: string]: string } {
       headers: { 'Authorization': `Bearer ${token}` }
     });
   }
+  
+ 
 }

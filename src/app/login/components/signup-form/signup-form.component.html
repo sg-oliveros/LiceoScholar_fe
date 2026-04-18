@@ -1,4 +1,11 @@
 <form class="signup-form">
+  <input type="text" 
+  id="schoolID"
+  name="schoolID"
+  placeholder="Liceo School ID" 
+  [(ngModel)]="schoolID"
+  />
+
   <input
     type="text"
     id="firstName"
@@ -24,7 +31,7 @@
   />
 
   <select name="course" [(ngModel)]="course" required>
-    <option value="" disabled selected hidden>Course Name</option>
+    <option value="" disabled selected hidden >Course Name</option>
     
     @for (c of courses; track c.id) {
       <option [value]="c.id">

@@ -7,12 +7,14 @@ import { ApplicationsService } from '../services/applications.service';
 import { AuthService } from '../services/auth.service';
 
 export interface Student {
+    SchoolID: string;
     applicationId: number;
     userId: number;
     name: string;
     course: string;
     scholarshipType: string;
     submittedDate: string;
+    schoolYear: string;
     status: 'Pending' | 'Approved' | 'Rejected' | 'Finished';
 }
 
@@ -56,12 +58,14 @@ export class StudentListComponent implements OnInit, OnDestroy {
             next: (applications) => {
                 // Map backend Application to frontend Student interface
                 this.students = applications.map(app => ({
+                    SchoolID: String(app.SchoolID),
                     applicationId: app.ApplicationID,
                     userId: app.UserID,
                     name: app.FullName,
                     course: app.Course,
                     scholarshipType: app.ScholarshipType,
                     submittedDate: app.Application_Date,
+                    schoolYear: app.SchoolYear,
                     status: app.Status as 'Pending' | 'Approved' | 'Rejected' | 'Finished'
                 }));
                 this.isLoading = false;
@@ -77,7 +81,10 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
     filteredStudents() {
         return this.students.filter(s => {
-            const matchesSearch = s.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+            const matchesSearch = !this.searchTerm || 
+                s.name?.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+                (s.SchoolID || '').includes(this.searchTerm) ||
+                (s.schoolYear || '').includes(this.searchTerm);
             const matchesCourse = !this.filters.course || s.course === this.filters.course;
             const matchesScholarship = !this.filters.scholarship || s.scholarshipType === this.filters.scholarship;
             const matchesStatus = !this.filters.status || s.status === this.filters.status;
@@ -163,6 +170,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
     finishTerm() {
         this.applicationsService.finishTerm().subscribe({
             complete: () => {
+                this.updateSySem();
                 console.log('Term finished successfully');
                 this.showFinishDialog = false;
                 this.clearCountdown();
@@ -210,7 +218,23 @@ export class StudentListComponent implements OnInit, OnDestroy {
         // No need to clear with RxJS take operator
     }
 
+    trackByStudentId(index: number, student: Student): number {
+        return student.applicationId;
+    }
+
     ngOnDestroy() {
         this.clearCountdown();
+    }
+    updateSySem(): void {
+        this.applicationsService.updateSySem().subscribe({
+            complete: () => {
+                console.log('SySem updated successfully');
+                this.loadApplications();
+            },
+            error: (err) => {
+                console.error('Failed to update SySem:', err);
+                alert('Failed to update SySem');
+            }
+        }); 
     }
 }

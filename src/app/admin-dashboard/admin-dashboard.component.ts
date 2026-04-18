@@ -2,6 +2,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component';
+import { ApplicationsService } from '../services/applications.service';
 import { DailyApplicationStat, DashboardService} from '../services/dashboard.service';
 import { AuthService } from '../services/auth.service';
 import { ProfilePhotoComponent } from "../components/profile-photo/profile-photo.component";
@@ -28,10 +29,14 @@ export class AdminDashboardComponent implements OnInit{
 
   constructor(
     private dashboardService: DashboardService,
+    private applicationsService: ApplicationsService,
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private cdr: ChangeDetectorRef
   ) {}
+
+  currentYear: string = '';
+  currentSemester: string = '';
 
   currentUser: any;
   currentUserId: number | null = null;
@@ -210,8 +215,11 @@ export class AdminDashboardComponent implements OnInit{
     });
   }
   loadUserData(): void {
+    console.log('loadUserData() called');
     this.authService.getMe().subscribe({
       next: (response) => {
+        console.log('loadUserData() success, calling loadSchoolyear()');
+        this.loadSchoolyear();
         
         const user = response.user;
         this.currentUser = user;
@@ -230,4 +238,24 @@ export class AdminDashboardComponent implements OnInit{
       }
     });
   }
+  loadSchoolyear(): void {
+    console.log('loadSchoolyear() called');
+    this.applicationsService.getSySem().subscribe({
+      next: (response: any) => {
+        console.log('Schoolyear data received:', response);
+        const sySem = Array.isArray(response) ? response[0] : response;
+        if (sySem && sySem.Year_start && sySem.Year_end) {
+          this.currentYear = `${sySem.Year_start}-${sySem.Year_end}`;
+          this.currentSemester = sySem.Semester === 1 ? '1st Sem' : '2nd Sem';
+          console.log('Set currentYear:', this.currentYear, 'currentSemester:', this.currentSemester);
+        } else {
+          console.warn('Invalid SySem response:', response);
+        }
+      },
+      error: (err: any) => {
+        console.error('Failed to load schoolyear data:', err);
+      }
+    });
+  }
+
 }

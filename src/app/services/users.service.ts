@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface UserProfile {
+  SchoolID: number;
   FullName: string;
   Course: string;
   Scholarship: string;
@@ -11,6 +12,7 @@ export interface UserProfile {
 }
 
 export interface StudentListItem {
+  SchoolID: number;
   UserID: number;
   FullName: string;
   Email: string;
@@ -35,5 +37,9 @@ export class UsersService {
   
   deleteStudent(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/users/${userId}`);
+  }
+
+  updateUser(userId: number, data: any): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/users/${userId}`, data);
   }
 }

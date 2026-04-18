@@ -24,7 +24,7 @@ export class ProfilePhotoComponent {
   photoUrl = signal<string>('assets/images/default-avatar.png');
   isLoading = signal<boolean>(false);
   selectedFile: File | null = null;
-  previewUrl: string | null = null;
+  
 
   ngOnInit() {
     this.loadPhoto();
@@ -54,8 +54,10 @@ export class ProfilePhotoComponent {
       // Create preview
       const reader = new FileReader();
       reader.onload = (e) => {
-        this.previewUrl = e.target?.result as string;
-        this.cdr.detectChanges(); // Force update to show buttons
+        
+        this.cdr.detectChanges();
+        // Auto-upload after preview is set
+        this.uploadPhoto();
       };
       reader.readAsDataURL(this.selectedFile);
     }
@@ -75,22 +77,19 @@ export class ProfilePhotoComponent {
       next: (response) => {
         this.isLoading.set(false);
         this.photoUrl.set(this.uploadService.getPhotoUrl(response.photoUrl));
-        this.previewUrl = null;
-        this.selectedFile = null;
         
+        this.selectedFile = null;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.isLoading.set(false);
+        
+        this.selectedFile = null;
         alert(err.error?.message || 'Failed to upload photo');
       }
     });
   }
 
-  cancelUpload() {
-    this.selectedFile = null;
-    this.previewUrl = null;
-    
-  }
 
   deletePhoto() {
     const id = this.userId || this.authService.getCurrentUser()?.UserID;

@@ -26,7 +26,7 @@ export class StudentProfileComponent implements OnInit {
   selectedScholarship = '';
   isLoading = true;
 
-  
+  editSchoolID = '';
   editFirstName = '';
   editLastName = '';
   editEmail = '';
@@ -34,7 +34,8 @@ export class StudentProfileComponent implements OnInit {
 
   currentUser: any;
 
-  student = signal({
+  student = signal({  
+    schoolID: '',
     fullName: '',
     email: '',
     phone: '',
@@ -62,6 +63,7 @@ export class StudentProfileComponent implements OnInit {
       return;
     }
     
+    this.editSchoolID = user.SchoolID || '';
     this.editLastName = user.LastName || '';
     this.editFirstName = user.FirstName || '';
     this.editEmail = user.Email || '';
@@ -78,6 +80,7 @@ export class StudentProfileComponent implements OnInit {
     if (!this.currentUserId) return;
 
     const updateData = {
+      SchoolID: this.editSchoolID,
       FirstName: this.editFirstName,
       LastName: this.editLastName,
       Email: this.editEmail,
@@ -85,7 +88,10 @@ export class StudentProfileComponent implements OnInit {
     };
 
     // You'll need to add updateUser to auth.service.ts
-    this.authService.updateUser(this.currentUserId, updateData).subscribe({
+    this.authService.updateUser(this.currentUserId, {
+      ...updateData,
+      SchoolID: parseInt(updateData.SchoolID)
+    }).subscribe({
       next: () => {
         
         this.closeEditInfo();
@@ -108,6 +114,7 @@ export class StudentProfileComponent implements OnInit {
         this.currentUserId = user.UserID;
         this.student.set({
           ...this.student(),
+          schoolID: user.SchoolID?.toString() || '',
           fullName: `${user.LastName}, ${user.FirstName}`,
           email: user.Email,
           phone: user.Phone_number || '',
@@ -168,26 +175,46 @@ export class StudentProfileComponent implements OnInit {
   submitApplication(): void {
     if (!this.selectedScholarship || !this.currentUserId) return;
 
-    // Map scholarship name to ID based on your DB
-    const scholarshipMap: { [key: string]: number } = {
-      'Academic Scholarship (FULL)': 1,
-      'Academic Scholarship (Half)': 2,
-      'Non-Academic Scholarship': 3,
-      'Special Scholarship': 4
-    };
+    const userId = this.currentUserId;
 
-    const scholarshipId = scholarshipMap[this.selectedScholarship];
-    if (!scholarshipId) {
-      console.error('Unknown scholarship:', this.selectedScholarship);
-      return;
-    }
+    // Get current SySem first
+    this.applicationsService.getSySem().subscribe({
+      next: (sySemArray) => {
+        if (!sySemArray || sySemArray.length === 0) {
+          alert('Unable to get current school year and semester');
+          return;
+        }
 
-    this.applicationsService.createApplication(this.currentUserId, scholarshipId).subscribe({
-      next: (response) => {
-        console.log('Application submitted:', response);
-        alert('Application submitted successfully!');
-        this.closeApplyModal();
-        this.loadApplications(); // Refresh the list
+        const sySem = sySemArray[0];
+        const schoolYear = `${sySem.Year_start}-${sySem.Year_end}`;
+        const semester = sySem.Semester;
+
+        // Map scholarship name to ID based on your DB
+        const scholarshipMap: { [key: string]: number } = {
+          'Academic Scholarship (FULL)': 1,
+          'Academic Scholarship (Half)': 2,
+          'Non-Academic Scholarship': 3,
+          'Special Scholarship': 4
+        };
+
+        const scholarshipId = scholarshipMap[this.selectedScholarship];
+        if (!scholarshipId) {
+          console.error('Unknown scholarship:', this.selectedScholarship);
+          return;
+        }
+
+        this.applicationsService.createApplication(userId, scholarshipId, schoolYear, semester).subscribe({
+          next: (response) => {
+            console.log('Application submitted:', response);
+            alert('Application submitted successfully!');
+            this.closeApplyModal();
+            this.loadApplications(); // Refresh the list
+          },
+          error: (err) => {
+            console.error('Failed to submit application:', err);
+            alert(err.error?.message || 'Failed to submit application');
+          }
+        });
       },
       error: (err) => {
         console.error('Failed to submit application:', err);

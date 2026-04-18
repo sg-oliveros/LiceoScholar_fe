@@ -15,6 +15,7 @@ export class SignupFormComponent {
   public schoolEmail = model<string>('');
   public password = model<string>('');
   public phoneNumber = model<string>('');
+  public schoolID = model<string>('');
 
   public onsubmit = output<void>();
 

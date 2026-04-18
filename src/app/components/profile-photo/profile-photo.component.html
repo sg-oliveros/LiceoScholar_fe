@@ -10,44 +10,24 @@
   <div class="photo-edit-container" [style.width]="width" [style.height]="height">
     <div class="photo-wrapper" [style.width]="width" [style.height]="height">
       <img 
-        [src]="previewUrl || photoUrl()" 
+        [src]="photoUrl()" 
         alt="Profile Photo" 
         class="profile-photo"
+        (click)="editable && fileInput.click()"
         (error)="photoUrl.set('assets/images/default-avatar.png')"
       />
-      <div class="loading-overlay" *ngIf="isLoading()">
-        <span>Uploading...</span>
+      
+      <div class="edit-overlay" *ngIf="editable">
+        <img src="assets/images/edit icon.png" alt="Edit" class="edit-icon" />
       </div>
     </div>
     <button 
-      *ngIf="editable && !previewUrl"
-      type="button" 
-      class="btn-edit-photo" 
-      (click)="fileInput.click()"
-      title="Change Photo">
-      <img src="assets/images/edit icon.png" alt="Edit" class="edit-icon" [style.width]="editIconSize" [style.height]="editIconSize" />
-    </button>
-  </div>
-
-  <div class="photo-actions" *ngIf="editable">
-    <div class="preview-actions" *ngIf="previewUrl; else selectTemplate">
-      <button type="button" class="btn-save" (click)="uploadPhoto()" [disabled]="isLoading()">
-        {{ isLoading() ? 'Saving...' : 'Save Photo' }}
-      </button>
-      <button type="button" class="btn-cancel" (click)="cancelUpload()" [disabled]="isLoading()">
-        Cancel
-      </button>
-    </div>
-    
-    <ng-template #selectTemplate>
-      <button 
-        *ngIf="!photoUrl().includes('default-avatar')" 
+        *ngIf="editable && !photoUrl().includes('default-avatar')" 
         type="button" 
         class="btn-delete" 
         (click)="deletePhoto()"
-        [disabled]="isLoading()">
-        Delete Photo
+        >
+        <img src="assets/images/delete.png" alt="Delete" class="delete-icon" [style.width]="editIconSize" [style.height]="editIconSize" />
       </button>
-    </ng-template>
   </div>
 </div>

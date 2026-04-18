@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, ChangeDetectorRef, inject, output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AuthService } from "../../../services/auth.service";
+import { error } from "console";
 
 @Component({
   selector: 'app-forget-pass',
@@ -42,6 +43,8 @@ export class ForgetPassComponent {
     this.emailError = '';
     console.log('Calling forgetPassword API...');
 
+    
+
     this.authService.forgetPassword(this.email).subscribe({
       next: (_response: unknown) => {
         console.log('API success, going to step 2');
@@ -49,10 +52,11 @@ export class ForgetPassComponent {
         this.step = 2;
         this.cdr.detectChanges();
       },
-      error: (err: { error?: { message?: string } }) => {
+      error: (err: any) => {
         console.log('API error:', err);
         this.isLoading = false;
-        this.emailError = err.error?.message || 'Failed to send code. Please try again.';
+        this.emailError = err.error?.message || err.message || 'Failed to send code. Please try again.';
+        this.cdr.detectChanges();
       }
     });
   }

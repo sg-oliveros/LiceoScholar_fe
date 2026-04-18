@@ -1,32 +1,39 @@
 <div class="container">
-<app-admin-sidebar></app-admin-sidebar>
+  <app-admin-sidebar></app-admin-sidebar>
 
-<div class="content">
-
+  <div class="content-container">
+   
+    <div class="content">
+     <h1>Profile</h1>    
     <div class="profile-card">
-     <app-profile-photo width="220px" height="220px" [editable]="true"></app-profile-photo>
-    <div class="info-fields">
+      <app-profile-photo width="220px" height="220px" [editable]="true"></app-profile-photo>
+
+      <div class="info-fields">
         <div class="field-group">
-        <label>FULL NAME (LAST NAME, FIRST NAME, M.I.)</label>
-        <div class="input-wrapper">
+          <label>FULL NAME (LAST NAME, FIRST NAME, M.I.)</label>
+          <div class="input-wrapper">
             <input [value]="admin().fullName" disabled />
-        </div>
-        </div>
-
-        <div class="field-group">
-        <label>EMAIL</label>
-        <input [value]="admin().email" disabled />
+          </div>
         </div>
 
         <div class="field-group">
-        <label>PHONE</label>
-        <input [value]="admin().phone" disabled />
+          <label>EMAIL</label>
+          <input [value]="admin().email" disabled />
         </div>
-        <button class="edit-info-btn"(click)="openEditInfo()">Edit info</button>
+
+        <div class="field-group">
+          <label>PHONE</label>
+          <input [value]="admin().phone" disabled />
+        </div>
+
+        <button class="edit-info-btn" (click)="openEditInfo()">Edit info</button>
+      </div>
     </div>
-    </div>
+  </div></div>
+  
+  
 </div>
-</div>
+
 <div class="modal-overlay" *ngIf="showEditInfo" (click)="closeEditInfo()">
   <div class="modal edit-modal" (click)="$event.stopPropagation()">
     <button class="modal-close" (click)="closeEditInfo()">&#x2715;</button>

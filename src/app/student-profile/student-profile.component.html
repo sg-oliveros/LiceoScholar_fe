@@ -7,6 +7,9 @@
       <app-profile-photo height="240px" width="240px" [editable]="true"></app-profile-photo>
 
       <div class="info">
+        <label>School ID</label>
+        <input [value]="student().schoolID" disabled />
+        
         <label>Last Name, First Name, M.I.</label>
         <input [value]="student().fullName" disabled />
 
@@ -42,6 +45,7 @@
         <div class="table-head">
           <span>ApplicationID</span>
           <span>Scholarship Name</span>
+          <span>S.Y & Semester</span>
           <span>Status</span>
           <span>Date Submitted</span>
         </div>
@@ -49,6 +53,7 @@
           <div class="table-row" *ngFor="let record of applications()">
             <span>{{ record.ApplicationID }}</span>
             <span>{{ record.ScholarshipType }}</span>
+            <span>{{ record.SchoolYear }} {{ record.Semester }}</span>
             <span [ngClass]="record.Status.toLowerCase()">{{ record.Status }}</span>
             <span>{{ record.Application_Date }}</span>
           </div>
@@ -62,7 +67,7 @@
       <div class="history-table">
         
         <div >
-          <div class="table-head">
+          <div class="table-head-req">
             <span>Requirement ID</span>
             <span>Requirement Name</span>
             <span>Status</span>
@@ -70,11 +75,11 @@
             
           </div>
           <div class="history-table-wrapper">
-            <div class="table-row" *ngFor="let req of requirements()">
+            <div class="table-row-req" *ngFor="let req of requirements()">
               <span>{{ req.requirementID }}</span>
               <span>{{ req.requirementName }}</span>
               <span [ngClass]="req.status.toLowerCase()">{{ req.status }}</span>
-              <span>{{ req.dateSubmitted || 'Not submitted' }}</span>
+              <span>{{ req.dateSubmitted ? (req.dateSubmitted | date:'medium') : 'Not submitted' }}</span>
             </div>
           </div>
           
@@ -92,6 +97,8 @@
 
     <div class="modal-body">
       <h3>Edit Profile Information</h3>
+      <label class="edit-modal-lable">School ID</label>
+      <input type="text" [(ngModel)]="editSchoolID" name="editSchoolID" class="edit-modal-input" />
 
       <label class="edit-modal-lable">Last Name</label>
       <input type="text" [(ngModel)]="editLastName" name="editLastName" class="edit-modal-input" />
@@ -138,7 +145,7 @@
 
     <div class="modal-actions">
       <button class="btn-cancel" (click)="closeApplyModal()">Cancel</button>
-      <button class="btn-apply" (click)="submitApplication(); closeApplyModal()" [disabled]="!selectedScholarship">APPLY</button>
+      <button class="btn-apply" (click)="submitApplication()" [disabled]="!selectedScholarship">APPLY</button>
     </div>
   </div>
 </div>

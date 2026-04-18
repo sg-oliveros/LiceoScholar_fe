@@ -1,6 +1,7 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { UsersService, UserProfile } from '../services/users.service';
 import { RequirementsService } from '../services/requirements.service';
 import { ProfilePhotoComponent } from '../components/profile-photo/profile-photo.component';
@@ -8,7 +9,7 @@ import { ProfilePhotoComponent } from '../components/profile-photo/profile-photo
 @Component({
     selector: 'app-admin-select-student',
     standalone: true,
-    imports: [CommonModule, ProfilePhotoComponent],
+    imports: [CommonModule, FormsModule, ProfilePhotoComponent],
     templateUrl: './admin-select-student.component.html',
     styleUrls: ['./admin-select-student.component.scss']
 })
@@ -22,7 +23,17 @@ export class AdminSelectStudentComponent implements OnInit {
     dropdownPosition = { top: 0, left: 0 };  
 
     showDeleteModal = false;
+    showEditInfo = false;
 
+    editStudentID = '';
+    editSchoolID = '';
+    editFirstName = '';
+    editLastName = '';
+    editEmail = '';
+    editPhone = '';
+
+
+    schoolID: string | null = '';
     studentName: string | null = '';
     student: UserProfile | null = null;
     userId: number | null = null;
@@ -45,6 +56,7 @@ export class AdminSelectStudentComponent implements OnInit {
             next: (profile: UserProfile) => {
                 this.student = profile;
                 this.studentName = profile.FullName;
+                this.schoolID = profile.SchoolID?.toString() || '';
                 console.log(this.student);
                 this.loadRequirements(userId);
                 this.isLoading = false;
@@ -132,5 +144,48 @@ export class AdminSelectStudentComponent implements OnInit {
 
     goBack(): void {
         this.location.back();
+    }
+
+    openEditInfo(): void {
+        if (!this.student || !this.userId) {
+            alert('Student data not loaded yet');
+            return;
+        }
+
+        // Parse FullName into First and Last names
+        const nameParts = this.student.FullName.split(',');
+        this.editLastName = nameParts[0]?.trim() || '';
+        this.editFirstName = nameParts[1]?.trim() || '';
+        this.editSchoolID = this.student.SchoolID?.toString() || '';
+        this.editEmail = this.student.Email || '';
+        this.editPhone = this.student.Phone_Number || '';
+        this.showEditInfo = true;
+    }
+
+    closeEditInfo(): void {
+        this.showEditInfo = false;
+    }
+
+    saveInfo(): void {
+        if (!this.userId) return;
+
+        const updateData = {
+            SchoolID: parseInt(this.editSchoolID) || 0,
+            FirstName: this.editFirstName,
+            LastName: this.editLastName,
+            Email: this.editEmail,
+            Phone_Number: this.editPhone
+        };
+
+        this.UsersService.updateUser(this.userId, updateData).subscribe({
+            next: () => {
+                this.closeEditInfo();
+                this.loadStudentProfile(this.userId!);
+            },
+            error: (err) => {
+                console.error('Failed to save profile:', err);
+                alert('Failed to save profile');
+            }
+        });
     }
 }

@@ -51,7 +51,8 @@ export class AdminAllStudentsComponent implements OnInit {
     return this.students.filter(s => {
       const matchesSearch = s.FullName.toLowerCase().includes(term) ||
         s.Email.toLowerCase().includes(term) ||
-        (s.Course && s.Course.toLowerCase().includes(term));
+        (s.Course && s.Course.toLowerCase().includes(term)) ||
+        (s.SchoolID && s.SchoolID.toString().includes(term));
       const matchesCourse = !this.filters.course || s.Course === this.filters.course;
       const matchesActiveScholar = !this.filters.activeScholar || s.IsActiveScholar === this.filters.activeScholar;
       return matchesSearch && matchesCourse && matchesActiveScholar;

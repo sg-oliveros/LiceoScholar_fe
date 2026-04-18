@@ -26,6 +26,9 @@ export class AdminProfileComponent implements OnInit {
   editLastName = '';
   editEmail = '';
   editPhone = '';
+
+  currentYear: string = '';
+  currentSemester: string = '';
     
   currentUser: any;
 
@@ -38,6 +41,7 @@ export class AdminProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUserData();
+    
   }
   openEditInfo(): void {
     console.log('openEditInfo clicked');
@@ -85,6 +89,7 @@ export class AdminProfileComponent implements OnInit {
     });
   }
 
+  
 
   loadUserData(): void {
     this.authService.getMe().subscribe({

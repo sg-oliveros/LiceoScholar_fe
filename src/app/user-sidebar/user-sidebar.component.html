@@ -8,9 +8,8 @@
     <li
     [class.active]="activeTab === 'profile'"
     (click)="setActive('profile')">
-    Student Profile
+    <span class="material-icons">person</span> Student Profile
     </li>
 </ul>
-
-    <a class="logout" (click)="logout()">Logout</a>
+    <a class="logout" (click)="logout()"><span class="material-icons">logout</span>Logout</a>
 </div>

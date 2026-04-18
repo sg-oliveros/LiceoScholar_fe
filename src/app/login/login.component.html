@@ -1,6 +1,6 @@
 
 <div class="login-container">
-<section>
+<section class="logo-container">
    
    <img src="assets/images/LDCULogo.png" alt="Liceo Logo" class="logo">
    <h1>LICEO SCHOLAR</h1>
@@ -8,9 +8,10 @@
 <div class="forms">
    
    <div class="app-login-form">
+      
       <app-switch-form (modeChange)="onModeChange($event)" *ngIf="mode() !== 'forget'"></app-switch-form>
       
-      <div *ngIf="errorMessage()" class="error-message">{{ errorMessage() }}</div>
+      <div *ngIf="errorMessage()" class="error-message">{{ '*' + errorMessage() }}</div>
 
       <app-login-form
          *ngIf="mode() === 'login'"
@@ -34,6 +35,7 @@
          [(schoolEmail)]="schoolEmail"
          [(password)]="signupPassword"
          [(phoneNumber)]="phoneNumber"
+         [(schoolID)]="schoolID"
          [disabled]="isLoading()"
          (onsubmit)="handleSubmitClicked()">
       </app-signup-form>

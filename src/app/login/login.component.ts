@@ -33,6 +33,7 @@ export class LoginComponent {
     public schoolEmail = model<string>('');
     public signupPassword = model<string>('');
     public phoneNumber = model<string>('');
+    public schoolID = model<string>('');
 
     public isLoading = signal<boolean>(false);
     public errorMessage = signal<string>('');
@@ -90,6 +91,7 @@ export class LoginComponent {
         this.errorMessage.set('');
 
         const payload = {
+            SchoolID:  this.schoolID(),
             FirstName: this.firstName(),
             LastName: this.lastName(),
             CourseID: this.course(),
@@ -105,12 +107,14 @@ export class LoginComponent {
                 alert('Account created successfully! Please login.');
                 this.mode.set('login'); 
                 // Clear signup form
+                this.schoolID.set('');
                 this.firstName.set('');
                 this.lastName.set('');
                 this.course.set('');
                 this.schoolEmail.set('');
                 this.signupPassword.set('');
                 this.phoneNumber.set('');
+                
             },
             error: (err) => {
                 this.isLoading.set(false);

@@ -3,9 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
+
 interface CreateApplicationRequest {
   UserID: number;
   ScholarshipID: number;
+  SchoolYear: string;
+  Semester: number;
 }
 
 interface CreateApplicationResponse {
@@ -14,12 +17,14 @@ interface CreateApplicationResponse {
 }
 
 interface Application {
+  SchoolID: number;
   ApplicationID: number;
   UserID: number;
   FullName: string;
   Course: string;
   ScholarshipType: string;
   Application_Date: string;
+  SchoolYear: string;
   Status: string;
 }
 
@@ -27,6 +32,13 @@ interface Scholarship {
   ScholarshipID: number;
   Scholarship_Name: string;
   Scholarship_Type: string;
+}
+
+export interface SySem {
+  sy_semID: number;
+  Year_start: number;
+  Year_end: number;
+  Semester: number;
 }
 
 @Injectable({
@@ -38,10 +50,12 @@ export class ApplicationsService {
   private apiUrl = 'http://localhost:3000';
 
   // Create a new scholarship application
-  createApplication(userId: number, scholarshipId: number): Observable<CreateApplicationResponse> {
+  createApplication(userId: number, scholarshipId: number, schoolYear: string, semester: number): Observable<CreateApplicationResponse> {
     const payload: CreateApplicationRequest = {
       UserID: userId,
-      ScholarshipID: scholarshipId
+      ScholarshipID: scholarshipId,
+      SchoolYear: schoolYear,
+      Semester: semester
     };
     return this.http.post<CreateApplicationResponse>(`${this.apiUrl}/applications/create`, payload);
   }
@@ -87,5 +101,16 @@ export class ApplicationsService {
   getScholarships(): Observable<Scholarship[]> {
     // Note: This endpoint may need to be added to the backend
     return this.http.get<Scholarship[]>(`${this.apiUrl}/scholarships`);
+  }
+  
+  getSySem(): Observable<SySem[]> {
+    return this.http.get<SySem[]>(`${this.apiUrl}/applications/sy-sem`, {
+      headers: this.authService.getAuthHeaders()
+    });
+  }
+  updateSySem(): Observable<any> {
+    return this.http.put(`${this.apiUrl}/applications/sy-sem`, {}, {
+      headers: this.authService.getAuthHeaders()
+    });
   }
 }

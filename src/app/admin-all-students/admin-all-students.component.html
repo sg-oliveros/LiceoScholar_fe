@@ -67,13 +67,15 @@
   </div>
   <div class="student-table">
     <div class="thead">
-        <span>Full Name</span>
-        <span>Email</span>
-        <span>Course</span>
-        <span>Active Scholar</span>
+      <span>School ID</span>
+      <span>Full Name</span>
+      <span>Email</span>
+      <span>Course</span>
+      <span>Active Scholar</span>
     </div>
     <div class="tbody-container">
       <div class="trow clickable" *ngFor="let student of filteredStudents()" (click)="onSelectStudent(student)">
+        <span class="school-id-cell">{{ student.SchoolID }}</span>
         <span class="name-cell">{{ student.FullName }}</span>
         <span class="email-cell">{{ student.Email }}</span>
         <span>{{ student.Course }}</span>

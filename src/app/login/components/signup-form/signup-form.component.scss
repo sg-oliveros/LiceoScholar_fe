@@ -1,3 +1,7 @@
+.signup-form {
+  padding: 0 33px 33px 33px;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -6,6 +10,9 @@ form {
   margin: 0 auto;
   background-color: transparent;
   border-radius: 0.5rem;
+}
+::placeholder {
+  color: #b1b1b1;
 }
 
 input, select {
@@ -19,7 +26,7 @@ input, select {
 }
 
 select:invalid, select option[value=""] {
-  color: #757575;
+  color: #b1b1b1;
 }
 
 button {

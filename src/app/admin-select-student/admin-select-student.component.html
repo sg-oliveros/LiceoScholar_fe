@@ -1,97 +1,152 @@
+<!-- HEADER SECTION -->
 <div class="admin-container">
-    <div class="header-container">
-        <div class="header-nav">
-            <button class="back-btn" (click)="goBack()">
-                <span class="material-icons">arrow_back</span>
-            </button>
-            <span class="breadcrumb">{{ studentName | uppercase }}</span>
-        </div>
-        <button class="delete-btn" (click)="deleteModal()"><span class="material-icons">delete</span>Delete Student</button>
+  <div class="header-container">
+    <div class="header-nav">
+      <button class="back-btn" (click)="goBack()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <span class="breadcrumb">{{ studentName | uppercase }}</span>
     </div>
+    <button class="delete-btn" (click)="deleteModal()">
+      <span class="material-icons">delete</span>Delete Student
+    </button>
+  </div>
+
+  <!-- LOADING & ERROR STATES -->
+  <div *ngIf="isLoading" class="loading">Loading...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content-container">
     
-
-    <div *ngIf="isLoading" class="loading">Loading...</div>
-    <div *ngIf="error" class="error">{{ error }}</div>
-
-    <div class="content-container">
+    <!-- PROFILE CARD SECTION -->
     <div class="profile-card" *ngIf="student && !isLoading">
-    <div class="avatar-container">
+      <div class="avatar-container">
         <app-profile-photo 
-            [userId]="userId"
-            width="400px" 
-            height="400px" 
-            [editable]="false">
+          [userId]="userId"
+          width="300px" 
+          height="300px" 
+          [editable]="true">
         </app-profile-photo>
-    </div>
+      </div>
 
-    <div class="details-list">
+      <!-- STUDENT DETAILS -->
+      <div class="details-list">
         <div class="detail-item">
-        <label>FULL NAME (LAST NAME, FIRST NAME, M.I.)</label>
-        <div class="info-box">{{ student.FullName }}</div>
+          <label>STUDENT ID</label>
+          <div class="info-box">{{ student.SchoolID }}</div>
         </div>
 
         <div class="detail-item">
-        <label>COURSE</label>
-        <div class="info-box">{{ student.Course }}</div>
+          <label>FULL NAME (LAST NAME, FIRST NAME, M.I.)</label>
+          <div class="info-box">{{ student.FullName }}</div>
+        </div>
+
+        <div class="detail-item">
+          <label>COURSE</label>
+          <div class="info-box">{{ student.Course }}</div>
         </div>
 
         <div class="detail-item" *ngIf="student.Scholarship && student.Scholarship !== 'No Scholarship'">
-        <label>TYPE OF SCHOLARSHIP</label>
-        <div class="info-box">{{ student.Scholarship }}</div>
+          <label>TYPE OF SCHOLARSHIP</label>
+          <div class="info-box">{{ student.Scholarship }}</div>
         </div>
 
         <div class="detail-item">
-        <label>EMAIL</label>
-        <div class="info-box">{{ student.Email }}</div>
+          <label>EMAIL</label>
+          <div class="info-box">{{ student.Email }}</div>
         </div>
+        
 
         <div class="detail-item">
-        <label>PHONE NUMBER</label>
-        <div class="info-box">{{ student.Phone_Number }}</div>
+          <label>PHONE NUMBER</label>
+          <div class="info-box">{{ student.Phone_Number }}</div>
         </div>
+        <button class="edit-info-btn" (click)="openEditInfo()">Edit info</button>
+
+        
+      </div>
     </div>
-    </div>
+
+    <!-- REQUIREMENTS SECTION -->
     <div class="requirements-section" *ngIf="requirements().length > 0">
-        <h3>Requirements</h3>
-        <div class="req-table">
-            <div class="req-table-head">
-                <span>Requirement ID</span>
-                <span>Requirement Name</span>
-                <span>Status</span>
-                <span>Submitted Date</span>
-            </div>
-            <div class="req-table-wrapper">
-                <div class="req-table-row" *ngFor="let req of requirements()">
-                    <span>{{ req.requirementID }}</span>
-                    <span>{{ req.requirementName }}</span>
-                    <span class="status-cell" (click)="toggleRequirementDropdown(req.requirementID, $event)">
-                        <span [ngClass]="req.status.toLowerCase()" class="status-text">{{ req.status }}▾</span>
-                        
-                        <div class="dropdown" *ngIf="openDropdownIndex === req.requirementID" [ngStyle]="{'position': 'fixed', 'top.px': dropdownPosition.top, 'left.px': dropdownPosition.left}">
-                            
-                            <div class="dropdown-item text-submitted" (click)="updateRequirementStatus(req, 'Submitted')">Submitted</div>
-                            
-                            <div class="dropdown-item text-missing" (click)="updateRequirementStatus(req, 'Missing')">Missing</div>
-                        </div>
-                    </span>
-                    <span>{{ req.dateSubmitted ? (req.dateSubmitted | date:'medium') : 'Not submitted' }}</span>
+      <h3>Requirements</h3>
+      <div class="req-table">
+        <div class="req-table-head">
+          <span>Requirement ID</span>
+          <span>Requirement Name</span>
+          <span>Status</span>
+          <span>Submitted Date</span>
+        </div>
+        <div class="req-table-wrapper">
+          <div class="req-table-row" *ngFor="let req of requirements()">
+            <span>{{ req.requirementID }}</span>
+            <span>{{ req.requirementName }}</span>
+            <span class="status-cell" (click)="toggleRequirementDropdown(req.requirementID, $event)">
+              <span [ngClass]="req.status.toLowerCase()" class="status-text">
+                {{ req.status }}▾
+              </span>
+              
+              <!-- STATUS DROPDOWN -->
+              <div class="dropdown" 
+                *ngIf="openDropdownIndex === req.requirementID" 
+                [ngStyle]="{'position': 'fixed', 'top.px': dropdownPosition.top, 'left.px': dropdownPosition.left}">
+                <div class="dropdown-item text-submitted" (click)="updateRequirementStatus(req, 'Submitted')">
+                  Submitted
                 </div>
-            </div>
+                <div class="dropdown-item text-missing" (click)="updateRequirementStatus(req, 'Missing')">
+                  Missing
+                </div>
+              </div>
+            </span>
+            <span>{{ req.dateSubmitted ? (req.dateSubmitted | date:'medium') : 'Not submitted' }}</span>
+          </div>
         </div>
+      </div>
     </div>
-    </div>
-    
-</div>
-<div></div>
 
+  </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
 <div class="delete-overlay" *ngIf="showDeleteModal" (click)="closeDeleteModal()">
-    <div class="delete-overlay-content" (click)="$event.stopPropagation()">
-        <h2>Delete Student</h2>
-        <p>Are you sure you want to delete this student?</p>
-        <div class="button-container">
-            
-            <button class="cancel-button" (click)="closeDeleteModal()">Cancel</button>
-            <button class="delete-button" (click)="deleteStudent()">Delete</button>
-        </div>
+  <div class="delete-overlay-content" (click)="$event.stopPropagation()">
+    <h2>Delete Student</h2>
+    <p>Are you sure you want to delete this student?</p>
+    <div class="button-container">
+      <button class="cancel-button" (click)="closeDeleteModal()">Cancel</button>
+      <button class="delete-button" (click)="deleteStudent()">Delete</button>
     </div>
+  </div>
+</div>
+
+<!-- EDIT INFO MODAL -->
+<div class="modal-overlay" *ngIf="showEditInfo" (click)="closeEditInfo()">
+  <div class="modal edit-modal" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeEditInfo()">&#x2715;</button>
+
+    <div class="modal-body">
+      <h3>Edit Profile Information</h3>
+      
+      <label class="edit-modal-lable">School ID</label>
+      <input type="text" [(ngModel)]="editSchoolID" name="editSchoolID" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">Last Name</label>
+      <input type="text" [(ngModel)]="editLastName" name="editLastName" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">First Name</label>
+      <input type="text" [(ngModel)]="editFirstName" name="editFirstName" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">Email</label>
+      <input type="email" [(ngModel)]="editEmail" name="editEmail" class="edit-modal-input" />
+
+      <label class="edit-modal-lable">Phone Number</label>
+      <input type="text" [(ngModel)]="editPhone" name="editPhone" class="edit-modal-input" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="closeEditInfo()">Cancel</button>
+      <button class="btn-apply" (click)="saveInfo()">Save</button>
+    </div>
+  </div>
 </div>
